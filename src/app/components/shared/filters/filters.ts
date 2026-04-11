@@ -10,6 +10,12 @@ import { LucideCheck } from '@lucide/angular';
   styleUrl: './filters.css',
 })
 export class Filters implements OnInit {
+  /****************************
+   *****************************
+   ***** დღეს აქ ვასრულებ მუშაობას პროექტზე... შემდეგ გავაგრძელებ <3
+   ****************************
+   ****************************/
+
   http = inject(HttpService);
 
   categories = signal<CategoriesModel[]>([]);
