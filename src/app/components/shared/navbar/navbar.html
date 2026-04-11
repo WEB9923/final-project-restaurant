@@ -83,11 +83,11 @@
 
             <app-separator></app-separator>
 
-            <div class="space-y-2">
+            <div class="space-y-1">
               <button
                 routerLink="/profile"
                 (click)="closeUserDropdown()"
-                class="btn w-full text-foreground! hover:bg-primary! hover:text-primary-foreground! justify-start! text-sm! bg-input/70! font-medium! h-8! items-center! gap-1!"
+                class="btn w-full text-foreground! hover:bg-accent! hover:text-primary! justify-start! text-sm! bg-input/30! font-medium! h-8! items-center! gap-1!"
               >
                 <svg
                   lucideUser
@@ -98,7 +98,7 @@
               <button
                 routerLink="/settings"
                 (click)="closeUserDropdown()"
-                class="btn text-foreground! hover:bg-primary! hover:text-primary-foreground! w-full justify-start! text-sm! bg-input/70! font-medium! h-8! items-center! gap-1!"
+                class="btn w-full text-foreground! hover:bg-accent! hover:text-primary! justify-start! text-sm! bg-input/30! font-medium! h-8! items-center! gap-1!"
               >
                 <svg
                   lucideSettings
@@ -108,7 +108,7 @@
               </button>
               <button
                 (click)="auth.logout()"
-                class="btn text-foreground! hover:bg-destructive! hover:text-destructive-foreground! w-full justify-start! text-sm! bg-input/70! font-medium! h-8! items-center! gap-1!"
+                class="btn text-foreground! hover:bg-destructive/40! hover:text-destructive! w-full justify-start! text-sm! bg-destructive/20! font-medium! h-8! items-center! gap-1!"
               >
                 <svg
                   lucideLogOut
