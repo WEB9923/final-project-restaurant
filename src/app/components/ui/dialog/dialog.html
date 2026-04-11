@@ -1,0 +1,48 @@
+@if (dialog.show()) {
+  <div
+    #dialogOverlay
+    class="bg-background/70 z-50 backdrop-blur-sm fixed inset-0 scale-y-100"
+  >
+    <div
+      #dialogElement
+      class="fixed invisible opacity-0 scale-x-0 md:max-w-130 sm:max-w-110 w-[calc(100%-20px)] p-5 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-card rounded-radius border-2 border-border z-50"
+    >
+      <header class="flex justify-between items-center">
+        <h3 class="text-[22px] font-bold">{{ dialog.title() }}</h3>
+
+        <button
+          (click)="onClose()"
+          class="btn hover:text-destructive-foreground! w-7! h-7! bg-transparent! text-foreground! hover:bg-destructive/85! flex items-center justify-center"
+        >
+          <svg
+            lucideX
+            [size]="22"
+          ></svg>
+        </button>
+      </header>
+      <app-separator></app-separator>
+      <div class="my-5">
+        <p class="text-[16px] text-muted-foreground">
+          {{ dialog.description() }}
+        </p>
+      </div>
+
+      <footer class="flex justify-end items-center gap-2">
+        <button
+          (click)="onClose()"
+          class="btn bg-input! text-foreground!"
+        >
+          Close
+        </button>
+        @if (dialog.actionText()) {
+          <button
+            (click)="dialog.onAction()"
+            class="btn bg-destructive! hover:bg-destructive/85!"
+          >
+            {{ dialog.actionText() }}
+          </button>
+        }
+      </footer>
+    </div>
+  </div>
+}

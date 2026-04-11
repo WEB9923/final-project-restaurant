@@ -1,10 +1,9 @@
 <section class="py-4 min-h-[calc(100vh-70px)]">
-  <div class="container-wrapper">
-    <h1 class="title">Profile settings</h1>
-
-    <div class="bg-card border-2 border-border p-8 mt-5 rounded-radius">
+  <div class="container-wrapper space-y-7">
+    <div class="bg-card border-2 border-border p-10 mt-5 rounded-radius relative">
+      <app-side-ribbon text="Personal info"></app-side-ribbon>
       <div
-        class="w-25 h-25 rounded-full border border-accent mx-auto ring-4 ring-primary ring-offset-2 ring-offset-card overflow-hidden"
+        class="w-25 h-25 pointer-events-none rounded-full border border-accent mx-auto ring-4 ring-primary ring-offset-2 ring-offset-card overflow-hidden"
         [ngClass]="{ 'flex items-center justify-center bg-accent': !user.profile()?.picture }"
       >
         @if (user.profile()?.picture) {
@@ -59,6 +58,73 @@
           Save changes
         </button>
       </form>
+    </div>
+
+    <div class="bg-card border-2 border-border p-10 rounded-radius relative">
+      <app-side-ribbon text="Change password"></app-side-ribbon>
+
+      <h1 class="font-bold text-2xl">Update password</h1>
+
+      <form
+        (submit)="handleUpdatePassword($event)"
+        class="grid-cols-2 grid gap-4 mt-5"
+        novalidate
+      >
+        @for (newPasswordFormItem of newPasswordFields; track $index) {
+          <div class="col-span-2">
+            <label
+              [for]="newPasswordFormItem.name"
+              class="text-[15px] font-medium"
+            >
+              {{ newPasswordFormItem.label }}
+            </label>
+
+            <input
+              [id]="newPasswordFormItem.name"
+              [name]="newPasswordFormItem.name"
+              [type]="newPasswordFormItem.type"
+              [placeholder]="newPasswordFormItem.placeholder"
+              [(ngModel)]="newPasswordFormModel[newPasswordFormItem.name]"
+              autocomplete="off"
+              class="input h-9 w-full disabled:opacity-80! disabled:text-muted-foreground"
+            />
+
+            @if (newPasswordFormItem.name === 'confirmPassword') {
+              <app-password-prerequisite></app-password-prerequisite>
+            }
+          </div>
+        }
+
+        <button
+          type="submit"
+          class="btn w-fit bg-primary! text-primary-foreground!"
+        >
+          Update password
+        </button>
+      </form>
+    </div>
+
+    <div class="bg-destructive/10 border-2 border-destructive/50 p-10 rounded-radius relative">
+      <app-side-ribbon
+        text="Danger"
+        classes="bg-destructive/30 text-destructive! rounded-br-md"
+      ></app-side-ribbon>
+
+      <h1 class="font-bold text-2xl">Danger zone</h1>
+
+      <div class="mt-5 space-y-4">
+        <p class="text-destructive">
+          Once you delete your account, there is no going back. Please be certain.
+        </p>
+
+        <button
+          (click)="showDialog()"
+          type="button"
+          class="btn w-fit text-destructive-foreground! hover:bg-destructive/85 bg-destructive!"
+        >
+          Delete my account
+        </button>
+      </div>
     </div>
   </div>
 </section>

@@ -3,15 +3,21 @@ import { UserService } from '../../services/user-service';
 import { NgClass } from '@angular/common';
 import { ProfileField, ProfileFormModel } from '../../interfaces/profile-form';
 import { FormsModule } from '@angular/forms';
+import { SideRibbon } from '../../components/ui/side-ribbon/side-ribbon';
+import { NewPasswordField } from '../../interfaces/new-password-form';
+import { NewPasswordModel } from '../../models/new-password-model';
+import { PasswordPrerequisite } from '../../components/ui/password-prerequisite/password-prerequisite';
+import { DialogService } from '../../services/dialog-service';
 
 @Component({
   selector: 'app-profile',
-  imports: [NgClass, FormsModule],
+  imports: [NgClass, FormsModule, SideRibbon, PasswordPrerequisite],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
 export class Profile implements OnInit {
   user = inject(UserService);
+  dialog = inject(DialogService);
 
   profileFormModel: ProfileFormModel = {
     firstName: '',
@@ -21,6 +27,12 @@ export class Profile implements OnInit {
     picture: '',
     address: '',
     email: '',
+  };
+
+  newPasswordFormModel: NewPasswordModel = {
+    oldPassword: '',
+    newPassword: '',
+    confirmPassword: '',
   };
 
   profileFields: ProfileField[] = [
@@ -75,6 +87,27 @@ export class Profile implements OnInit {
     },
   ];
 
+  newPasswordFields: NewPasswordField[] = [
+    {
+      type: 'password',
+      name: 'oldPassword',
+      label: 'Old password',
+      placeholder: '••••••••••',
+    },
+    {
+      type: 'password',
+      name: 'newPassword',
+      label: 'New password',
+      placeholder: '••••••••••',
+    },
+    {
+      type: 'password',
+      name: 'confirmPassword',
+      label: 'Confirm new password',
+      placeholder: '••••••••••',
+    },
+  ];
+
   handleUpdateProfile(evt: SubmitEvent) {
     evt.preventDefault();
 
@@ -90,9 +123,27 @@ export class Profile implements OnInit {
       .subscribe();
   }
 
+  handleUpdatePassword(evt: SubmitEvent): void {
+    evt.preventDefault();
+
+    this.user.updatePassword(this.newPasswordFormModel).subscribe();
+  }
+
+  showDialog(): void {
+    this.dialog.open({
+      title: 'Delete account',
+      description:
+        'Are you sure you want to delete your account? This action cannot be undone. Your account will be deleted permanently.',
+      actionText: 'Delete permanently',
+      onAction: (): void => {
+        this.user.deleteAccount().subscribe();
+      },
+    });
+  }
+
   ngOnInit(): void {
     this.user.fetchProfile().subscribe({
-      next: ({ data }) => {
+      next: ({ data }): void => {
         this.profileFormModel = {
           email: data.email,
           picture: data.picture,

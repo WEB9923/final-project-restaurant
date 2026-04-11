@@ -6,10 +6,18 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
 import { LucideCircleDot, LucideLoaderCircle } from '@lucide/angular';
 import gsap from 'gsap';
+import { PasswordPrerequisite } from '../../components/ui/password-prerequisite/password-prerequisite';
 
 @Component({
   selector: 'app-register',
-  imports: [NgClass, RouterLink, FormsModule, LucideLoaderCircle, LucideCircleDot],
+  imports: [
+    NgClass,
+    RouterLink,
+    FormsModule,
+    LucideLoaderCircle,
+    LucideCircleDot,
+    PasswordPrerequisite,
+  ],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })

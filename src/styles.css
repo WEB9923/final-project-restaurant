@@ -130,7 +130,7 @@
 }
 
 .btn-icon {
-  @apply rounded-radius hover:opacity-85 w-9;
+  @apply rounded-radius hover:opacity-85 w-9 h-9 cursor-pointer;
 }
 
 .btn-bordered {
@@ -160,4 +160,8 @@
 
 .card {
   @apply bg-card rounded-radius border-2 border-border hover:border-primary;
+}
+
+.vertical-lr {
+  writing-mode: sideways-lr;
 }
