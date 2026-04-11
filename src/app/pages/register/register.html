@@ -1,0 +1,101 @@
+<div class="h-screen w-full">
+  <div class="container-wrapper w-full h-full grid place-items-center">
+    <div
+      class="p-8 bg-card shadow-sm rounded-radius border-2 border-border md:w-112.5 lg:w-125 w-full"
+    >
+      <div class="text-center">
+        <h2 class="title">Create Account</h2>
+        <p class="subtitle">Join us today</p>
+      </div>
+
+      <form
+        (submit)="handleRegister($event)"
+        novalidate
+        class="grid grid-cols-2 gap-4 mt-5"
+      >
+        @for (registerFormItem of registerFormItems; track $index) {
+          <div
+            [ngClass]="{
+              'col-span-1': registerFormItem.gridCols === 1,
+              'col-span-2': registerFormItem.gridCols === 2,
+            }"
+          >
+            <label
+              [for]="registerFormItem.name"
+              class="text-[15px] font-medium"
+            >
+              {{ registerFormItem.label }}
+            </label>
+            <input
+              [type]="registerFormItem.type"
+              [placeholder]="registerFormItem.placeholder"
+              [id]="registerFormItem.name"
+              [name]="registerFormItem.name"
+              [(ngModel)]="registerModel()[registerFormItem.name]"
+              autocomplete="off"
+              class="input h-9 w-full"
+            />
+
+            @if (registerFormItem.isPassword) {
+              <div class="flex flex-col mt-2 gap-0.5">
+                @for (
+                  item of [
+                    ' At least 8 characters',
+                    'Uppercase and lowercase letters',
+                    'At least one number',
+                  ];
+                  track $index
+                ) {
+                  <p class="flex items-center text-muted-foreground gap-0.5">
+                    <svg
+                      lucideCircleDot
+                      [size]="15"
+                      [strokeWidth]="3"
+                      class="p-0!"
+                    ></svg>
+                    <span class="text-[13px]">{{ item }}</span>
+                  </p>
+                }
+              </div>
+            }
+          </div>
+        }
+
+        <button
+          [disabled]="isLoading()"
+          type="submit"
+          class="btn bg-primary relative col-span-2 overflow-hidden"
+        >
+          <div
+            #textBlock
+            class="inset-0 absolute flex items-center justify-center"
+          >
+            Create account
+          </div>
+
+          <div
+            #loaderBlock
+            class="flex items-center justify-center absolute inset-0 opacity-0 gap-1.5 translate-y-10"
+          >
+            <svg
+              lucideLoader2
+              [size]="18"
+              class="animate-spin"
+            ></svg>
+            Please wait...
+          </div>
+        </button>
+      </form>
+
+      <div class="mt-5 text-center text-[15.5px] font-medium">
+        Already have an account?
+        <a
+          routerLink="/auth/login"
+          class="text-primary hover:underline"
+        >
+          Login
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+@if (toast.show()) {
+  <div
+    #toastElement
+    class="fixed rounded-radius z-100 bottom-5 right-5 p-3 border-2 min-w-60 shadow-lg sm:max-w-80 max-w-full opacity-0"
+    [ngClass]="{
+      'bg-emerald-100 border-emerald-300 text-emerald-600': toast.toastType() === 'success',
+      'bg-red-100 border-red-300 text-red-600': toast.toastType() === 'error',
+      'bg-yellow-100 border-yellow-300 text-yellow-600': toast.toastType() === 'warning',
+      'bg-blue-100 border-blue-300 text-blue-600': toast.toastType() === 'info',
+      'bg-card text-foreground border-border': toast.toastType() === 'default',
+    }"
+  >
+    <!--    close button-->
+    @if (toast.showClose()) {
+      <button
+        (click)="closeToast()"
+        class="absolute -top-3 -right-3 w-6 border-2 h-6 rounded-full cursor-pointer flex items-center justify-center"
+        [ngClass]="{
+          'bg-emerald-100 border-emerald-300 text-emerald-600': toast.toastType() === 'success',
+          'bg-red-100 border-red-300 text-red-600': toast.toastType() === 'error',
+          'bg-yellow-100 border-yellow-300 text-yellow-600': toast.toastType() === 'warning',
+          'bg-blue-100 border-blue-300 text-blue-600': toast.toastType() === 'info',
+          'bg-card text-foreground border-border': toast.toastType() === 'default',
+        }"
+      >
+        <svg
+          lucideX
+          [size]="18"
+          [ngClass]="{
+            'text-emerald-600': toast.toastType() === 'success',
+            'text-red-600': toast.toastType() === 'error',
+            'text-yellow-600': toast.toastType() === 'warning',
+            'text-blue-600': toast.toastType() === 'info',
+            'text-foreground border-border': toast.toastType() === 'default',
+          }"
+        ></svg>
+      </button>
+    }
+    <!--    toast message-->
+
+    <p class="font-medium text-[14.5px]">{{ toast.message() }}</p>
+  </div>
+}

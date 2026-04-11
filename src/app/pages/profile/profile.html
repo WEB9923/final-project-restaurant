@@ -1,0 +1,64 @@
+<section class="py-4 min-h-[calc(100vh-70px)]">
+  <div class="container-wrapper">
+    <h1 class="title">Profile settings</h1>
+
+    <div class="bg-card border-2 border-border p-8 mt-5 rounded-radius">
+      <div
+        class="w-25 h-25 rounded-full border border-accent mx-auto ring-4 ring-primary ring-offset-2 ring-offset-card overflow-hidden"
+        [ngClass]="{ 'flex items-center justify-center bg-accent': !user.profile()?.picture }"
+      >
+        @if (user.profile()?.picture) {
+          <img
+            [src]="user.profile()?.picture"
+            [alt]="user.profile()?.firstName"
+            class="w-full h-full object-cover aspect-square"
+          />
+        } @else {
+          <span class="text-foreground font-black text-4xl">
+            {{ user.profile()?.firstName?.charAt(0)?.toUpperCase()?.trim() }}
+          </span>
+        }
+      </div>
+
+      <form
+        (submit)="handleUpdateProfile($event)"
+        class="grid-cols-2 grid gap-4 mt-5"
+        novalidate
+      >
+        @for (profileFormItem of profileFields; track $index) {
+          <div
+            [ngClass]="{
+              'col-span-1': profileFormItem.gridCols === 1,
+              'col-span-2': profileFormItem.gridCols === 2,
+            }"
+          >
+            <label
+              [for]="profileFormItem.name"
+              class="text-[15px] font-medium"
+            >
+              {{ profileFormItem.label }}
+            </label>
+
+            <input
+              [id]="profileFormItem.name"
+              [name]="profileFormItem.name"
+              [type]="profileFormItem.type"
+              [placeholder]="profileFormItem.placeholder"
+              [disabled]="profileFormItem.name === 'email'"
+              [(ngModel)]="profileFormModel[profileFormItem.name]"
+              autocomplete="off"
+              class="input h-9 w-full disabled:opacity-80! disabled:text-muted-foreground"
+            />
+          </div>
+        }
+
+        <button
+          type="submit"
+          class="btn w-fit bg-primary! text-primary-foreground!"
+        >
+          Save changes
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
