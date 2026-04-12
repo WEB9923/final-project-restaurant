@@ -31,8 +31,8 @@ export class PopularDishes implements OnInit, AfterViewInit {
   productCards = viewChildren(Card, { read: ElementRef });
   popularDishesTitle = viewChild.required<ElementRef<HTMLHeadElement>>('popularDishesTitle');
 
-  handleAddToCart(event: number): void {
-    console.log(event);
+  handleAddToCart(productId: number): void {
+    console.log(productId);
   }
 
   constructor() {
