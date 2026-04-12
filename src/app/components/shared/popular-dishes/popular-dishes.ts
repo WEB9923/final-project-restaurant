@@ -11,29 +11,29 @@ import {
 } from '@angular/core';
 import { HttpService } from '../../../services/http-service';
 import { ProductModel } from '../../../models/product-model';
-import { NgOptimizedImage } from '@angular/common';
-import { LucideStar } from '@lucide/angular';
-import { UtilsService } from '../../../services/utils-service';
-import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Card } from '../card/card';
 
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-popular-dishes',
-  imports: [NgOptimizedImage, LucideStar, RouterLink],
+  imports: [Card],
   templateUrl: './popular-dishes.html',
   styleUrl: './popular-dishes.css',
 })
 export class PopularDishes implements OnInit, AfterViewInit {
   http = inject(HttpService);
-  utils = inject(UtilsService);
 
   products = signal<ProductModel[]>([]);
 
-  productCards = viewChildren<ElementRef<HTMLElement>>('productCard');
+  productCards = viewChildren(Card, { read: ElementRef });
   popularDishesTitle = viewChild.required<ElementRef<HTMLHeadElement>>('popularDishesTitle');
+
+  handleAddToCart(event: number): void {
+    console.log(event);
+  }
 
   constructor() {
     effect((): void => {

@@ -1,5 +1,5 @@
 export class ProductModel {
-  id!: string;
+  id!: number;
   name!: string;
   description!: string;
   vegeterian!: boolean;
