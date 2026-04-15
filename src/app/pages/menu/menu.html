@@ -1,6 +1,33 @@
 <section class="py-4 min-h-[calc(100vh-70px)]">
   <div class="container-wrapper grid grid-cols-[280px_1fr] gap-4 w-full">
-    <app-filters></app-filters>
-    <div class="bg-red-300 w-full">hello world</div>
+    <app-filters
+      [currentFilters]="currentFilters()"
+      (filtersChanged)="onFiltersChanged($event)"
+    ></app-filters>
+
+    <div class="w-full grid xl:grid-cols-3 lg:grid-cols-2 gap-5">
+      @if (productService.isLoading()) {
+        <div class="col-span-full flex gap-1 flex-col justify-center items-center w-full">
+          <app-loader></app-loader>
+        </div>
+      } @else {
+        @for (product of productService.products(); track product.id) {
+          <app-card
+            [product]="product"
+            (addToCart)="handleAddToCart($event)"
+          ></app-card>
+        } @empty {
+          <div class="col-span-full flex gap-1 flex-col justify-center items-center w-full">
+            <svg
+              lucidePackageOpen
+              [size]="90"
+              class="text-foreground"
+            ></svg>
+            <h2 class="text-3xl font-bold text-foreground">No products found</h2>
+            <p class="text-muted-foreground text-[17px]">Try searching for other products.</p>
+          </div>
+        }
+      }
+    </div>
   </div>
 </section>

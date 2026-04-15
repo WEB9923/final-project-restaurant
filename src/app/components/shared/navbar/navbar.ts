@@ -1,11 +1,9 @@
 import {
   AfterViewInit,
   Component,
-  effect,
   ElementRef,
   inject,
   OnInit,
-  signal,
   viewChild,
   viewChildren,
 } from '@angular/core';
@@ -13,11 +11,10 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { LucideChevronDown, LucideLogOut, LucideSettings, LucideUser } from '@lucide/angular';
 import gsap from 'gsap';
 import { NgClass } from '@angular/common';
-import { CategoriesModel } from '../../../models/categories-model';
 import { NAV_LINKS } from '../../../lib/constants';
-import { HttpService } from '../../../services/http-service';
 import { AuthService } from '../../../services/auth-service';
 import { Separator } from '../../ui/separator/separator';
+import { CategoriesService } from '../../../services/categories-service';
 
 @Component({
   selector: 'app-navbar',
@@ -35,7 +32,7 @@ import { Separator } from '../../ui/separator/separator';
   styleUrl: './navbar.css',
 })
 export class Navbar implements OnInit, AfterViewInit {
-  http = inject(HttpService);
+  categoriesService = inject(CategoriesService);
   auth = inject(AuthService);
 
   navLinks = NAV_LINKS;
@@ -45,8 +42,6 @@ export class Navbar implements OnInit, AfterViewInit {
   dropdown = viewChild.required<ElementRef<HTMLElement>>('dropdown');
   navItems = viewChildren<ElementRef<HTMLElement>>('navItem');
   userDropdown = viewChild.required<ElementRef<HTMLElement>>('userDropdown');
-
-  categories = signal<CategoriesModel[]>([]);
 
   openDropdown(): void {
     this.isDropdownOpened = true;
@@ -106,19 +101,6 @@ export class Navbar implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.http.getCategories<{ data: CategoriesModel[] }>().subscribe({
-      next: ({ data }) => {
-        this.categories.set(data);
-      },
-      error: (error): void => {
-        console.log(error);
-      },
-    });
-  }
-
-  constructor() {
-    effect(() => {
-      console.log(this.auth.currentUser());
-    });
+    this.categoriesService.getCategories().subscribe();
   }
 }

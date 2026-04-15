@@ -1,39 +1,69 @@
-import { Component, effect, inject, OnInit, signal } from '@angular/core';
-import { CategoriesModel } from '../../../models/categories-model';
-import { HttpService } from '../../../services/http-service';
+import { Component, effect, inject, input, OnInit, output, signal } from '@angular/core';
+import { Switch } from '../../ui/switch/switch';
+import { FormsModule } from '@angular/forms';
+import { ProductFilter } from '../../../interfaces/product-filter';
+import { CategoriesService } from '../../../services/categories-service';
+import { Loader } from '../../ui/loader/loader';
 
 @Component({
   selector: 'app-filters',
-  imports: [],
+  imports: [Switch, FormsModule, Loader],
   templateUrl: './filters.html',
   styleUrl: './filters.css',
 })
 export class Filters implements OnInit {
-  /****************************
-   *****************************
-   ***** დღეს აქ ვასრულებ მუშაობას პროექტზე... შემდეგ გავაგრძელებ <3
-   ****************************
-   ****************************/
+  categoriesService = inject(CategoriesService);
 
-  http = inject(HttpService);
+  currentFilters = input<ProductFilter>();
+  filtersChanged = output<ProductFilter>();
 
-  categories = signal<CategoriesModel[]>([]);
+  searchValue: string = '';
+  selectedCategoryId: number | null = null;
+  minPrice: number | null = null;
+  maxPrice: number | null = null;
+  isVegetarian = signal<boolean>(false);
+
+  onChange(): void {
+    this.emit();
+  }
+
+  private emit(): void {
+    this.filtersChanged.emit({
+      search: this.searchValue || undefined,
+      categoryId: this.selectedCategoryId ?? undefined,
+      vegetarian: this.isVegetarian() || undefined,
+      minPrice: this.minPrice || undefined,
+      maxPrice: this.maxPrice || undefined,
+    });
+  }
+
+  clearAll() {
+    this.searchValue = '';
+    this.selectedCategoryId = null;
+    this.minPrice = null;
+    this.maxPrice = null;
+    this.isVegetarian.set(false);
+
+    this.filtersChanged.emit({
+      search: undefined,
+      categoryId: undefined,
+      minPrice: undefined,
+      maxPrice: undefined,
+      vegetarian: undefined,
+    });
+  }
 
   ngOnInit(): void {
-    this.http.getCategories<{ data: CategoriesModel[] }>().subscribe({
-      next: ({ data }): void => {
-        this.categories.set(data);
-      },
-
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    this.categoriesService.getCategories().subscribe();
   }
 
   constructor() {
     effect((): void => {
-      console.log(this.categories());
+      const filters = this.currentFilters();
+
+      if (filters?.search) this.searchValue = filters.search;
+      if (filters?.categoryId) this.selectedCategoryId = filters.categoryId;
+      if (filters?.vegetarian) this.isVegetarian.set(filters.vegetarian);
     });
   }
 }

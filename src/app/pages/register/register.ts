@@ -4,20 +4,13 @@ import { IRegisterForm, IRegisterModel } from '../../interfaces/register-form';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
-import { LucideCircleDot, LucideLoaderCircle } from '@lucide/angular';
+import { LucideLoaderCircle } from '@lucide/angular';
 import gsap from 'gsap';
 import { PasswordPrerequisite } from '../../components/ui/password-prerequisite/password-prerequisite';
 
 @Component({
   selector: 'app-register',
-  imports: [
-    NgClass,
-    RouterLink,
-    FormsModule,
-    LucideLoaderCircle,
-    LucideCircleDot,
-    PasswordPrerequisite,
-  ],
+  imports: [NgClass, RouterLink, FormsModule, LucideLoaderCircle, PasswordPrerequisite],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })

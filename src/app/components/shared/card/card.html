@@ -5,8 +5,9 @@
   <header class="h-65 w-full overflow-hidden relative rounded-t-radius pointer-events-none">
     <img
       [ngSrc]="product().image"
+      priority
       fill
-      [alt]="product.name"
+      [alt]="product().name"
       class="w-full h-full object-center object-cover"
     />
   </header>

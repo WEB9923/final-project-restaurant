@@ -10,11 +10,6 @@ export class HttpService {
   private baseUrl = environment.baseUrl;
   private httpClient = inject(HttpClient);
 
-  // categories
-  getCategories<T>(): Observable<T> {
-    return this.httpClient.get<T>(`${this.baseUrl}/categories`);
-  }
-
   getProducts<T>({ param, queryParams }: { param?: string; queryParams?: string }): Observable<T> {
     return this.httpClient.get<T>(`${this.baseUrl}/products${param ? param : ''}${queryParams}`);
   }

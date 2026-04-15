@@ -134,11 +134,11 @@
 }
 
 .btn-bordered {
-  @apply border-border/60 hover:border-border border-2 bg-transparent;
+  @apply border-border/60 hover:border-border hover:bg-muted border-2 bg-transparent cursor-pointer rounded-radius px-1.5 h-9;
 }
 
 .btn-destructive {
-  @apply bg-destructive text-destructive-foreground;
+  @apply bg-destructive text-destructive-foreground h-9 px-1.5 cursor-pointer rounded-radius;
 }
 
 .input {

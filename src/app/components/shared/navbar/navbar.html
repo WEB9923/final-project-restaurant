@@ -37,7 +37,7 @@
               #dropdown
               class="before:content-[''] before:w-full before:absolute before:accent-transparent before:h-3 before:-top-3 before:left-0 opacity-0 invisible absolute rounded-radius flex flex-col w-full min-w-35 left-0 top-full p-3 bg-background border-2 border-border"
             >
-              @for (category of categories(); track category.id) {
+              @for (category of categoriesService.categories(); track category.id) {
                 <a
                   routerLink="/menu"
                   [queryParams]="{ categoryId: category.id }"
