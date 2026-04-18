@@ -80,8 +80,38 @@
             }
           </div>
 
-          <div class="border-2 border-border p-4 py-6 rounded-radius lg:sticky lg:top-20 h-fit">
-            <h3 class="text-[22px] font-bold">Order summary</h3>
+          <div
+            class="border-2 border-border px-5 py-10 rounded-radius lg:sticky lg:top-20 h-fit space-y-4"
+          >
+            <h3 class="text-[21px] font-bold">Order summary</h3>
+
+            <div class="space-y-2">
+              <div class="flex items-center justify-between text-[15.5px]">
+                <span class="text-muted-foreground font-medium">Subtotal</span>
+                <span class="font-bold">
+                  {{ cart.cartProducts()?.totalPrice | currency: 'USD' }}
+                </span>
+              </div>
+              <div class="flex items-center justify-between text-[15.5px]">
+                <span class="text-muted-foreground font-medium">Tax</span>
+                <span class="font-bold">
+                  {{ cart.cartProducts()?.totalPrice | currency: 'USD' }}
+                </span>
+              </div>
+              <div class="flex items-center justify-between text-[20px] mt-4">
+                <span class="text-foreground font-semibold">Total</span>
+                <span class="font-bold text-primary">
+                  {{ cart.cartProducts()?.totalPrice | currency: 'USD' }}
+                </span>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              class="btn bg-primary! text-primary-foreground! w-full!"
+            >
+              Proceed to checkout
+            </button>
           </div>
         </div>
       }
