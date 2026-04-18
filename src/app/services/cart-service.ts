@@ -1,8 +1,9 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, tap, throwError } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 import { ToastService } from './toast-service';
+import { CartProductModel } from '../models/product-model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,11 +14,13 @@ export class CartService {
 
   private baseUrl = environment.baseUrl;
 
-  private _cartProducts = signal(null);
+  private _cartProducts = signal<CartProductModel | null>(null);
   private _isLoading = signal<boolean>(false);
+  private _cartItemsCount = signal<number>(0);
 
   readonly cartProducts = this._cartProducts.asReadonly();
   readonly isLoading = this._isLoading.asReadonly();
+  readonly cartItemsCount = this._cartItemsCount.asReadonly();
 
   addToCart({ quantity, productId }: { quantity: number; productId: number }) {
     return this.http
@@ -47,5 +50,30 @@ export class CartService {
           return throwError(() => err);
         }),
       );
+  }
+
+  fetchCartProducts(): Observable<{ data: CartProductModel }> {
+    this._isLoading.set(true);
+
+    return this.http.get<{ data: CartProductModel }>(`${this.baseUrl}/cart`).pipe(
+      tap(({ data }): void => {
+        this._cartItemsCount.set(data.totalItems);
+
+        this._cartProducts.set(data);
+
+        this._isLoading.set(false);
+      }),
+
+      catchError((err: HttpErrorResponse) => {
+        this.toast.showToast({
+          message: err.error?.detail || 'Failed to fetch cart items',
+          type: 'error',
+        });
+
+        this._isLoading.set(false);
+
+        return throwError(() => err);
+      }),
+    );
   }
 }

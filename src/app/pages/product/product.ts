@@ -8,6 +8,7 @@ import { Loader } from '../../components/ui/loader/loader';
 import { Count } from '../../components/shared/count/count';
 import { Card } from '../../components/shared/card/card';
 import { CartService } from '../../services/cart-service';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-product',
@@ -32,6 +33,7 @@ export class Product {
 
   quantity = signal<number>(1);
   isLoading = signal<boolean>(false);
+
   productId = toSignal(this.route.params, {
     initialValue: { id: null },
   });
@@ -43,17 +45,23 @@ export class Product {
 
     this.isLoading.set(true);
 
-    this.cart.addToCart({ productId: id, quantity: this.quantity() }).subscribe({
-      next: (): void => this.isLoading.set(false),
-      error: (): void => this.isLoading.set(false),
-    });
+    this.cart
+      .addToCart({ productId: id, quantity: this.quantity() })
+      .pipe(switchMap(() => this.cart.fetchCartProducts()))
+      .subscribe({
+        next: (): void => this.isLoading.set(false),
+        error: (): void => this.isLoading.set(false),
+      });
   }
 
   handleAddSingleProduct(id: number, done: () => void): void {
-    this.cart.addToCart({ productId: id, quantity: 1 }).subscribe({
-      next: (): void => done(),
-      error: (): void => done(),
-    });
+    this.cart
+      .addToCart({ productId: id, quantity: 1 })
+      .pipe(switchMap(() => this.cart.fetchCartProducts()))
+      .subscribe({
+        next: (): void => done(),
+        error: (): void => done(),
+      });
   }
 
   constructor() {

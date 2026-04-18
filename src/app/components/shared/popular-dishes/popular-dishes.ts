@@ -15,6 +15,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Card } from '../card/card';
 import { CartService } from '../../../services/cart-service';
+import { switchMap } from 'rxjs';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -34,10 +35,13 @@ export class PopularDishes implements OnInit, AfterViewInit {
   popularDishesTitle = viewChild.required<ElementRef<HTMLHeadElement>>('popularDishesTitle');
 
   handleAddToCart(id: number, done: () => void): void {
-    this.cart.addToCart({ productId: id, quantity: 1 }).subscribe({
-      next: (): void => done(),
-      error: (): void => done(),
-    });
+    this.cart
+      .addToCart({ productId: id, quantity: 1 })
+      .pipe(switchMap(() => this.cart.fetchCartProducts()))
+      .subscribe({
+        next: (): void => done(),
+        error: (): void => done(),
+      });
   }
 
   constructor() {

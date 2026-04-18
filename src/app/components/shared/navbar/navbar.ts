@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  effect,
   ElementRef,
   inject,
   OnInit,
@@ -21,6 +22,7 @@ import { NAV_LINKS } from '../../../lib/constants';
 import { AuthService } from '../../../services/auth-service';
 import { Separator } from '../../ui/separator/separator';
 import { CategoriesService } from '../../../services/categories-service';
+import { CartService } from '../../../services/cart-service';
 
 @Component({
   selector: 'app-navbar',
@@ -41,6 +43,7 @@ import { CategoriesService } from '../../../services/categories-service';
 export class Navbar implements OnInit, AfterViewInit {
   categoriesService = inject(CategoriesService);
   auth = inject(AuthService);
+  cart = inject(CartService);
 
   navLinks = NAV_LINKS;
   isDropdownOpened: boolean = false;
@@ -109,5 +112,7 @@ export class Navbar implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.categoriesService.getCategories().subscribe();
+
+    this.cart.fetchCartProducts().subscribe();
   }
 }

@@ -9,6 +9,7 @@ import { Loader } from '../../components/ui/loader/loader';
 import { SheetService } from '../../services/sheet-service';
 import { Sheet } from '../../components/ui/sheet/sheet';
 import { CartService } from '../../services/cart-service';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -26,10 +27,13 @@ export class Menu implements OnInit {
   currentFilters = signal<ProductFilter | {}>({});
 
   handleAddToCart(id: number, done: () => void): void {
-    this.cart.addToCart({ quantity: 1, productId: id }).subscribe({
-      next: (): void => done(),
-      error: (): void => done(),
-    });
+    this.cart
+      .addToCart({ quantity: 1, productId: id })
+      .pipe(switchMap(() => this.cart.fetchCartProducts()))
+      .subscribe({
+        next: (): void => done(),
+        error: (): void => done(),
+      });
   }
 
   openFiltersSheet(): void {

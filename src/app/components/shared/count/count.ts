@@ -6,7 +6,7 @@ import { LucideMinus, LucidePlus } from '@lucide/angular';
   imports: [LucideMinus, LucidePlus],
   template: `
     <div
-      class="flex items-center border-2 border-border max-w-32 h-9 rounded-radius justify-between w-full"
+      class="flex items-center border-2 border-border max-w-28 h-9 rounded-radius justify-between w-full"
     >
       <button
         (click)="dec()"

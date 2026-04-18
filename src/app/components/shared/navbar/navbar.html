@@ -68,12 +68,20 @@
           <button
             routerLink="/cart"
             type="button"
-            class="btn-icon"
+            class="btn-icon relative!"
           >
             <svg
               lucideShoppingCart
               [size]="20"
             ></svg>
+
+            @if (cart.cartItemsCount() >= 1) {
+              <span
+                class="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs min-w-5 h-5 rounded-full font-semibold flex items-center justify-center"
+              >
+                {{ cart.cartItemsCount() }}
+              </span>
+            }
           </button>
 
           <div class="relative">
