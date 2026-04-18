@@ -113,6 +113,6 @@ export class Navbar implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.categoriesService.getCategories().subscribe();
 
-    this.cart.fetchCartProducts().subscribe();
+    this.cart.fetchCartProducts({ showLoader: false }).subscribe();
   }
 }

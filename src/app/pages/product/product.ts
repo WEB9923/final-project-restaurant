@@ -47,7 +47,7 @@ export class Product {
 
     this.cart
       .addToCart({ productId: id, quantity: this.quantity() })
-      .pipe(switchMap(() => this.cart.fetchCartProducts()))
+      .pipe(switchMap(() => this.cart.fetchCartProducts({ showLoader: false })))
       .subscribe({
         next: (): void => this.isLoading.set(false),
         error: (): void => this.isLoading.set(false),
@@ -57,7 +57,7 @@ export class Product {
   handleAddSingleProduct(id: number, done: () => void): void {
     this.cart
       .addToCart({ productId: id, quantity: 1 })
-      .pipe(switchMap(() => this.cart.fetchCartProducts()))
+      .pipe(switchMap(() => this.cart.fetchCartProducts({ showLoader: false })))
       .subscribe({
         next: (): void => done(),
         error: (): void => done(),

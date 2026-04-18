@@ -37,10 +37,17 @@ export class Cart {
     });
   }
 
+  updateQuantity(itemId: number, quantity: number): void {
+    this.cart
+      .updateQuantity({ itemId, quantity })
+      .pipe(switchMap(() => this.cart.fetchCartProducts({ showLoader: false })))
+      .subscribe();
+  }
+
   handleDeleteCartItem({ itemId }: { itemId: number }): void {
     this.cart
       .deleteCartItem({ itemId })
-      .pipe(switchMap(() => this.cart.fetchCartProducts()))
+      .pipe(switchMap(() => this.cart.fetchCartProducts({ showLoader: false })))
       .subscribe({
         next: (): void => {
           this.dialog.close();

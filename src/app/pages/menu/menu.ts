@@ -29,7 +29,7 @@ export class Menu implements OnInit {
   handleAddToCart(id: number, done: () => void): void {
     this.cart
       .addToCart({ quantity: 1, productId: id })
-      .pipe(switchMap(() => this.cart.fetchCartProducts()))
+      .pipe(switchMap(() => this.cart.fetchCartProducts({ showLoader: false })))
       .subscribe({
         next: (): void => done(),
         error: (): void => done(),

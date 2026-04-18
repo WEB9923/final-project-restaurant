@@ -37,7 +37,7 @@ export class PopularDishes implements OnInit, AfterViewInit {
   handleAddToCart(id: number, done: () => void): void {
     this.cart
       .addToCart({ productId: id, quantity: 1 })
-      .pipe(switchMap(() => this.cart.fetchCartProducts()))
+      .pipe(switchMap(() => this.cart.fetchCartProducts({ showLoader: false })))
       .subscribe({
         next: (): void => done(),
         error: (): void => done(),

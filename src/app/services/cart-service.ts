@@ -16,11 +16,13 @@ export class CartService {
 
   private _cartProducts = signal<CartProductModel | null>(null);
   private _isLoading = signal<boolean>(false);
+  private _itemLoading = signal<number | null>(null);
   private _cartItemsCount = signal<number>(0);
 
   readonly cartProducts = this._cartProducts.asReadonly();
   readonly isLoading = this._isLoading.asReadonly();
   readonly cartItemsCount = this._cartItemsCount.asReadonly();
+  readonly itemLoading = this._itemLoading.asReadonly();
 
   addToCart({ quantity, productId }: { quantity: number; productId: number }) {
     return this.http
@@ -52,8 +54,14 @@ export class CartService {
       );
   }
 
-  fetchCartProducts(): Observable<{ data: CartProductModel }> {
-    this._isLoading.set(true);
+  fetchCartProducts({
+    showLoader = true,
+  }: {
+    showLoader: boolean;
+  }): Observable<{ data: CartProductModel }> {
+    if (showLoader) {
+      this._isLoading.set(true);
+    }
 
     return this.http.get<{ data: CartProductModel }>(`${this.baseUrl}/cart`).pipe(
       tap(({ data }): void => {
@@ -61,7 +69,9 @@ export class CartService {
 
         this._cartProducts.set(data);
 
-        this._isLoading.set(false);
+        if (showLoader) {
+          this._isLoading.set(false);
+        }
       }),
 
       catchError((err: HttpErrorResponse) => {
@@ -70,7 +80,9 @@ export class CartService {
           type: 'error',
         });
 
-        this._isLoading.set(false);
+        if (showLoader) {
+          this._isLoading.set(false);
+        }
 
         return throwError(() => err);
       }),
@@ -78,7 +90,7 @@ export class CartService {
   }
 
   deleteCartItem({ itemId }: { itemId: number }) {
-    this._isLoading.set(true);
+    this._itemLoading.set(itemId);
 
     return this.http
       .delete<{ isSuccess: boolean }>(`${this.baseUrl}/cart/remove-from-cart/${itemId}`)
@@ -91,7 +103,7 @@ export class CartService {
             });
           }
 
-          this._isLoading.set(false);
+          this._itemLoading.set(null);
         }),
         catchError((err: HttpErrorResponse) => {
           this.toast.showToast({
@@ -99,7 +111,29 @@ export class CartService {
             type: 'error',
           });
 
-          this._isLoading.set(false);
+          this._itemLoading.set(null);
+
+          return throwError(() => err);
+        }),
+      );
+  }
+
+  updateQuantity({ itemId, quantity }: { itemId: number; quantity: number }) {
+    this._itemLoading.set(itemId);
+
+    return this.http
+      .put<{ isSuccess: boolean }>(`${this.baseUrl}/cart/edit-quantity`, { itemId, quantity })
+      .pipe(
+        tap(({ isSuccess }): void => {
+          this._itemLoading.set(null);
+        }),
+        catchError((err: HttpErrorResponse) => {
+          this.toast.showToast({
+            message: err.error?.detail || 'Failed to fetch cart items',
+            type: 'error',
+          });
+
+          this._itemLoading.set(null);
 
           return throwError(() => err);
         }),

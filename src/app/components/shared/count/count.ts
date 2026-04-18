@@ -1,4 +1,4 @@
-import { Component, model } from '@angular/core';
+import { Component, input, model, output } from '@angular/core';
 import { LucideMinus, LucidePlus } from '@lucide/angular';
 
 @Component({
@@ -33,15 +33,16 @@ import { LucideMinus, LucidePlus } from '@lucide/angular';
   `,
 })
 export class Count {
-  value = model<number>(1);
+  value = input<number>(1);
+  valueChange = output<number>();
 
   inc(): void {
-    this.value.set(this.value() + 1);
+    this.valueChange.emit(this.value() + 1);
   }
 
   dec(): void {
     if (this.value() > 1) {
-      this.value.set(this.value() - 1);
+      this.valueChange.emit(this.value() - 1);
     }
   }
 }
