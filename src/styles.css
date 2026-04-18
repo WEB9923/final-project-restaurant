@@ -130,15 +130,18 @@
 }
 
 .btn-icon {
-  @apply rounded-radius hover:opacity-85 w-9 h-9 cursor-pointer;
+  @apply rounded-radius hover:opacity-85 w-9 h-9 cursor-pointer flex items-center
+  justify-center disabled:opacity-85 disabled:pointer-events-none;
 }
 
 .btn-bordered {
-  @apply border-border/60 hover:border-border hover:bg-muted border-2 bg-transparent cursor-pointer rounded-radius px-1.5 h-9;
+  @apply border-border/60 hover:border-border hover:bg-muted border-2 bg-transparent
+  cursor-pointer rounded-radius px-1.5 h-9 disabled:opacity-85 disabled:pointer-events-none;
 }
 
 .btn-destructive {
-  @apply bg-destructive text-destructive-foreground h-9 px-1.5 cursor-pointer rounded-radius;
+  @apply bg-destructive text-destructive-foreground h-9 px-1.5 cursor-pointer rounded-radius
+  disabled:opacity-85 disabled:pointer-events-none;
 }
 
 .input {

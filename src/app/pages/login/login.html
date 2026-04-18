@@ -25,11 +25,20 @@
               [type]="loginFormItem.type"
               [placeholder]="loginFormItem.placeholder"
               [id]="loginFormItem.name"
-              [name]="loginFormItem.name"
-              [(ngModel)]="loginModel()[loginFormItem.name]"
+              [formField]="loginForm[loginFormItem.name]"
               autocomplete="off"
               class="input h-9 w-full"
             />
+
+            @if (
+              loginForm[loginFormItem.name]().touched() && loginForm[loginFormItem.name]().invalid()
+            ) {
+              @for (error of loginForm[loginFormItem.name]().errors(); track $index) {
+                <p class="text-destructive text-[15px]">
+                  {{ error.message }}
+                </p>
+              }
+            }
 
             @if (loginFormItem.isPassword) {
               <div class="flex items-center justify-end mt-2">
@@ -45,27 +54,22 @@
         }
 
         <button
+          [disabled]="auth.isLoading() || loginForm().invalid()"
           type="submit"
           class="btn bg-primary relative col-span-2 overflow-hidden"
         >
-          <div
-            #textBlock
-            class="inset-0 absolute flex items-center justify-center"
-          >
+          @if (auth.isLoading()) {
+            <div class="flex items-center gap-2">
+              <svg
+                lucideLoader
+                [size]="18"
+                class="animate-spin"
+              ></svg>
+              Please wait...
+            </div>
+          } @else {
             Sign in
-          </div>
-
-          <div
-            #loaderBlock
-            class="flex items-center justify-center absolute inset-0 opacity-0 gap-1.5 translate-y-10"
-          >
-            <svg
-              lucideLoader2
-              [size]="18"
-              class="animate-spin"
-            ></svg>
-            Please wait...
-          </div>
+          }
         </button>
       </form>
 

@@ -4,12 +4,14 @@ import { ProductService } from '../../services/product-service';
 import { Card } from '../../components/shared/card/card';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductFilter } from '../../interfaces/product-filter';
-import { LucidePackageOpen } from '@lucide/angular';
+import { LucideFunnel, LucidePackageOpen } from '@lucide/angular';
 import { Loader } from '../../components/ui/loader/loader';
+import { SheetService } from '../../services/sheet-service';
+import { Sheet } from '../../components/ui/sheet/sheet';
 
 @Component({
   selector: 'app-menu',
-  imports: [Filters, Card, LucidePackageOpen, Loader],
+  imports: [Filters, Card, LucidePackageOpen, Loader, LucideFunnel, Sheet],
   templateUrl: './menu.html',
   styleUrl: './menu.css',
 })
@@ -17,11 +19,16 @@ export class Menu implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   productService = inject(ProductService);
+  sheet = inject(SheetService);
 
   currentFilters = signal<ProductFilter | {}>({});
 
   handleAddToCart(productId: number): void {
     console.log(productId);
+  }
+
+  openFiltersSheet(): void {
+    this.sheet.open({ title: 'Filters' });
   }
 
   onFiltersChanged(filters: ProductFilter): void {

@@ -1,23 +1,20 @@
-<div class="sticky top-7 p-4 rounded-radius border-2 border-border bg-card w-full h-fit">
-  <h4 class="lg:text-xl text-lg font-bold">Filters</h4>
+<ng-container>
+  <h4 class="lg:text-xl text-lg font-bold hidden invisible lg:visible lg:block">Filters</h4>
 
   <div class="space-y-5 w-full mt-5">
     <div class="">
-      <label
-        for="search"
-        class="font-semibold text-[16px]"
-      >
+      <label class="font-semibold text-[16px]">
         Search
+
+        <input
+          [(ngModel)]="searchValue"
+          (ngModelChange)="onChange()"
+          type="text"
+          class="input h-9! w-full"
+          name="search"
+          placeholder="Search product..."
+        />
       </label>
-      <input
-        [(ngModel)]="searchValue"
-        (ngModelChange)="onChange()"
-        type="text"
-        class="input h-9! w-full"
-        name="search"
-        id="search"
-        placeholder="Search product..."
-      />
     </div>
 
     <div class="">
@@ -99,4 +96,4 @@
       </button>
     </div>
   </div>
-</div>
+</ng-container>

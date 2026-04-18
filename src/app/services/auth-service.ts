@@ -27,18 +27,23 @@ export class AuthService {
 
   readonly currentUser = this._currentUser.asReadonly();
   readonly isLoggedIn = computed((): boolean => !!this._currentUser());
+  readonly isLoading = this._isLoading.asReadonly();
 
   constructor() {
     this.initializeFromStorage();
   }
 
   register(data: IRegisterModel): Observable<{ token: string }> {
+    this._isLoading.set(true);
+
     return this.httpClient.post<{ token: string }>(`${this.baseUrl}/auth/register`, data).pipe(
       tap((): void => {
         this.toast.showToast({
           message: 'Account created. Please check your email',
           type: 'success',
         });
+
+        this._isLoading.set(false);
       }),
       catchError((err: HttpErrorResponse) => {
         const apiError = err.error;
@@ -50,12 +55,16 @@ export class AuthService {
           type: 'error',
         });
 
+        this._isLoading.set(false);
+
         return throwError(() => err);
       }),
     );
   }
 
   login(credentials: ILoginModel) {
+    this._isLoading.set(true);
+
     return this.httpClient
       .post<{
         data: {
@@ -74,6 +83,8 @@ export class AuthService {
 
             this.router.navigate(['/'], { replaceUrl: true });
           }
+
+          this._isLoading.set(false);
         }),
         catchError((err: HttpErrorResponse) => {
           if (err.error.status === 406) {
@@ -92,6 +103,8 @@ export class AuthService {
               type: 'error',
             });
           }
+
+          this._isLoading.set(false);
 
           return throwError(() => err);
         }),
