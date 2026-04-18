@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   Component,
-  effect,
   ElementRef,
   inject,
   OnInit,
@@ -12,6 +11,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import {
   LucideChevronDown,
   LucideLogOut,
+  LucideMenu,
   LucideSettings,
   LucideShoppingCart,
   LucideUser,
@@ -36,6 +36,7 @@ import { CartService } from '../../../services/cart-service';
     LucideUser,
     LucideLogOut,
     LucideShoppingCart,
+    LucideMenu,
   ],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
@@ -48,10 +49,104 @@ export class Navbar implements OnInit, AfterViewInit {
   navLinks = NAV_LINKS;
   isDropdownOpened: boolean = false;
   isUserDropdownOpened: boolean = false;
+  isMobileMenuOpened: boolean = false;
+  isMobileCategoriesDropdownOpened: boolean = false;
 
   dropdown = viewChild.required<ElementRef<HTMLElement>>('dropdown');
   navItems = viewChildren<ElementRef<HTMLElement>>('navItem');
   userDropdown = viewChild.required<ElementRef<HTMLElement>>('userDropdown');
+  mobileMenu = viewChild.required<ElementRef<HTMLElement>>('mobileMenu');
+  mobileDropdown = viewChild.required<ElementRef<HTMLElement>>('mobileDropdown');
+  mobileMenuItems = viewChildren<ElementRef<HTMLElement>>('mobileMenuItem');
+
+  toggleMobileMenu(): void {
+    if (this.isMobileMenuOpened) {
+      this.closeMobileMenu();
+    } else {
+      this.openMobileMenu();
+    }
+  }
+
+  toggleMobileCategoriesDropdown(): void {
+    if (this.isMobileCategoriesDropdownOpened) {
+      this.hideMobileCategoriesDropdown();
+    } else {
+      this.showMobileCategoriesDropdown();
+    }
+  }
+
+  showMobileCategoriesDropdown(): void {
+    this.isMobileCategoriesDropdownOpened = true;
+
+    gsap.to(this.mobileDropdown().nativeElement, {
+      height: 'auto',
+      autoAlpha: 1,
+      duration: 0.3,
+    });
+  }
+
+  hideMobileCategoriesDropdown(): void {
+    this.isMobileCategoriesDropdownOpened = false;
+
+    gsap.to(this.mobileDropdown().nativeElement, {
+      height: '0',
+      autoAlpha: 0,
+      duration: 0.3,
+    });
+  }
+
+  openMobileMenu(): void {
+    this.isMobileMenuOpened = true;
+
+    gsap.set(
+      this.mobileMenuItems().map((item) => item.nativeElement),
+      {
+        opacity: 1,
+        y: 0,
+      },
+    );
+
+    const tl = gsap.timeline();
+
+    tl.to(this.mobileMenu().nativeElement, {
+      x: 0,
+      duration: 0.3,
+      ease: 'power3.out',
+    }).from(
+      this.mobileMenuItems().map((item) => item.nativeElement),
+      {
+        opacity: 0,
+        y: -20,
+        stagger: 0.08,
+        duration: 0.25,
+      },
+      '-=0.15',
+    );
+  }
+
+  closeMobileMenu(): void {
+    this.isMobileMenuOpened = false;
+
+    const tl = gsap.timeline();
+
+    tl.to(
+      this.mobileMenuItems().map((item) => item.nativeElement),
+      {
+        opacity: 0,
+        y: -20,
+        stagger: 0.05,
+        duration: 0.2,
+      },
+    ).to(
+      this.mobileMenu().nativeElement,
+      {
+        x: '-100%',
+        duration: 0.3,
+        ease: 'power3.in',
+      },
+      '-=0.1',
+    );
+  }
 
   openDropdown(): void {
     this.isDropdownOpened = true;
@@ -108,6 +203,8 @@ export class Navbar implements OnInit, AfterViewInit {
         opacity: 0,
       },
     );
+
+    gsap.set(this.mobileMenu().nativeElement, { x: '-100%' });
   }
 
   ngOnInit(): void {

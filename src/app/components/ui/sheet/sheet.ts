@@ -11,7 +11,7 @@ import { fromEvent } from 'rxjs';
     @if (sheet.isSheetOpen()) {
       <aside
         #sidebar
-        class="fixed -left-full opacity-0 lg:hidden top-17.5 bottom-0 h-[calc(100vh-70px)] bg-card border-r-2 border-border md:w-87.5 sm:w-82 min-[450px]:w-76 w-full p-4"
+        class="fixed -left-full z-50 opacity-0 lg:hidden top-17.5 bottom-0 h-[calc(100vh-70px)] bg-card border-r-2 border-border md:w-87.5 sm:w-82 min-[450px]:w-76 w-full p-4"
       >
         <header class="flex items-center justify-between">
           <h2 class="text-2xl font-bold">{{ sheet.title() }}</h2>
