@@ -8,7 +8,13 @@ import {
   viewChildren,
 } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { LucideChevronDown, LucideLogOut, LucideSettings, LucideUser } from '@lucide/angular';
+import {
+  LucideChevronDown,
+  LucideLogOut,
+  LucideSettings,
+  LucideShoppingCart,
+  LucideUser,
+} from '@lucide/angular';
 import gsap from 'gsap';
 import { NgClass } from '@angular/common';
 import { NAV_LINKS } from '../../../lib/constants';
@@ -27,6 +33,7 @@ import { CategoriesService } from '../../../services/categories-service';
     LucideSettings,
     LucideUser,
     LucideLogOut,
+    LucideShoppingCart,
   ],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',

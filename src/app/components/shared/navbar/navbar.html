@@ -63,80 +63,93 @@
     </div>
 
     <div class="flex-1 flex justify-end">
-      @if (auth.isLoggedIn()) {
-        <div class="relative">
-          <div
-            (click)="toggleUserDropdown()"
-            class="w-10 select-none cursor-pointer h-10 bg-accent flex items-center justify-center font-black text-foreground rounded-full"
+      <div class="flex items-center gap-4">
+        @if (auth.isLoggedIn()) {
+          <button
+            routerLink="/cart"
+            type="button"
+            class="btn-icon"
           >
-            {{ auth.currentUser()?.firstName?.charAt(0)?.toUpperCase() }}
-          </div>
+            <svg
+              lucideShoppingCart
+              [size]="20"
+            ></svg>
+          </button>
 
-          <div
-            #userDropdown
-            class="z-50 invisible opacity-0 absolute top-full translate-y-2.5 right-0 md:min-w-68 max-w-full w-full bg-background border-2 border-border p-3 rounded-radius"
-          >
-            <h5 class="font-bold text-[15px] line-clamp-1">{{ auth.currentUser()?.email }}</h5>
-            <p class="text-sm font-medium">
-              {{ auth.currentUser()?.firstName }} {{ auth.currentUser()?.lastName }}
-            </p>
+          <div class="relative">
+            <div
+              (click)="toggleUserDropdown()"
+              class="w-10 select-none cursor-pointer h-10 bg-accent flex items-center justify-center font-black text-foreground rounded-full"
+            >
+              {{ auth.currentUser()?.firstName?.charAt(0)?.toUpperCase() }}
+            </div>
 
-            <app-separator></app-separator>
+            <div
+              #userDropdown
+              class="z-50 invisible opacity-0 absolute top-full translate-y-2.5 right-0 md:min-w-68 max-w-full w-full bg-background border-2 border-border p-3 rounded-radius"
+            >
+              <h5 class="font-bold text-[15px] line-clamp-1">{{ auth.currentUser()?.email }}</h5>
+              <p class="text-sm font-medium">
+                {{ auth.currentUser()?.firstName }} {{ auth.currentUser()?.lastName }}
+              </p>
 
-            <div class="space-y-1">
-              <button
-                routerLink="/profile"
-                (click)="closeUserDropdown()"
-                class="btn w-full text-foreground! hover:bg-accent! hover:text-primary! justify-start! text-sm! bg-input/30! font-medium! h-8! items-center! gap-1!"
-              >
-                <svg
-                  lucideUser
-                  [size]="18"
-                ></svg>
-                Profile
-              </button>
-              <button
-                routerLink="/settings"
-                (click)="closeUserDropdown()"
-                class="btn w-full text-foreground! hover:bg-accent! hover:text-primary! justify-start! text-sm! bg-input/30! font-medium! h-8! items-center! gap-1!"
-              >
-                <svg
-                  lucideSettings
-                  [size]="18"
-                ></svg>
-                Settings
-              </button>
-              <button
-                (click)="auth.logout()"
-                class="btn text-foreground! hover:bg-destructive/40! hover:text-destructive! w-full justify-start! text-sm! bg-destructive/20! font-medium! h-8! items-center! gap-1!"
-              >
-                <svg
-                  lucideLogOut
-                  [size]="18"
-                ></svg>
-                Log out
-              </button>
+              <app-separator></app-separator>
+
+              <div class="space-y-1">
+                <button
+                  routerLink="/profile"
+                  (click)="closeUserDropdown()"
+                  class="btn w-full text-foreground! hover:bg-accent! hover:text-primary! justify-start! text-sm! bg-input/30! font-medium! h-8! items-center! gap-1!"
+                >
+                  <svg
+                    lucideUser
+                    [size]="18"
+                  ></svg>
+                  Profile
+                </button>
+                <button
+                  routerLink="/settings"
+                  (click)="closeUserDropdown()"
+                  class="btn w-full text-foreground! hover:bg-accent! hover:text-primary! justify-start! text-sm! bg-input/30! font-medium! h-8! items-center! gap-1!"
+                >
+                  <svg
+                    lucideSettings
+                    [size]="18"
+                  ></svg>
+                  Settings
+                </button>
+                <button
+                  (click)="auth.logout()"
+                  class="btn text-foreground! hover:bg-destructive/40! hover:text-destructive! w-full justify-start! text-sm! bg-destructive/20! font-medium! h-8! items-center! gap-1!"
+                >
+                  <svg
+                    lucideLogOut
+                    [size]="18"
+                  ></svg>
+                  Log out
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      } @else {
-        <div class="flex items-center gap-2">
-          <button
-            #navItem
-            routerLink="/auth/login"
-            class="btn bg-secondary! text-foreground! px-4! capitalize"
-          >
-            log in
-          </button>
-          <button
-            #navItem
-            routerLink="/auth/register"
-            class="btn px-4! capitalize bg-primary"
-          >
-            register
-          </button>
-        </div>
-      }
+        } @else {
+          <div class="flex items-center gap-2">
+            <button
+              #navItem
+              routerLink="/auth/login"
+              class="btn bg-secondary! text-foreground! px-4! capitalize"
+            >
+              log in
+            </button>
+            <button
+              #navItem
+              routerLink="/auth/register"
+              class="btn px-4! capitalize bg-primary"
+            >
+              register
+            </button>
+          </div>
+        }
+      </div>
     </div>
   </div>
 </nav>

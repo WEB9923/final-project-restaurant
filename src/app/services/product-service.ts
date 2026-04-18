@@ -78,8 +78,6 @@ export class ProductService {
       .get<{ data: SingleProductModel }>(`${this.baseUrl}/products/${productId}`)
       .pipe(
         tap(({ data }): void => {
-          console.log(data);
-
           this._singleProduct.set(data);
 
           this._isLoading.set(false);
