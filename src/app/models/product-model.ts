@@ -9,3 +9,19 @@ export class ProductModel {
   image!: string;
   canDelete!: boolean;
 }
+
+export class SingleProductModel {
+  name!: string;
+  description!: string;
+  vegetarian!: boolean;
+  spiciness!: number;
+  rate!: number;
+  price!: number;
+  image!: string;
+  method!: string;
+  ingredients!: string[];
+  categoryId!: number;
+  id!: number;
+  createdAt!: Date;
+  updatedAt!: Date;
+}
