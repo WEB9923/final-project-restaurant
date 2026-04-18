@@ -14,6 +14,7 @@ import { ProductModel } from '../../../models/product-model';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Card } from '../card/card';
+import { CartService } from '../../../services/cart-service';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,14 +26,18 @@ gsap.registerPlugin(ScrollTrigger);
 })
 export class PopularDishes implements OnInit, AfterViewInit {
   http = inject(HttpService);
+  cart = inject(CartService);
 
   products = signal<ProductModel[]>([]);
 
   productCards = viewChildren(Card, { read: ElementRef });
   popularDishesTitle = viewChild.required<ElementRef<HTMLHeadElement>>('popularDishesTitle');
 
-  handleAddToCart(productId: number): void {
-    console.log(productId);
+  handleAddToCart(id: number, done: () => void): void {
+    this.cart.addToCart({ productId: id, quantity: 1 }).subscribe({
+      next: (): void => done(),
+      error: (): void => done(),
+    });
   }
 
   constructor() {

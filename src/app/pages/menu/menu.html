@@ -39,7 +39,7 @@
           @for (product of productService.products(); track product.id) {
             <app-card
               [product]="product"
-              (addToCart)="handleAddToCart($event)"
+              (addToCart)="handleAddToCart($event.id, $event.done)"
             ></app-card>
           } @empty {
             <div class="col-span-full flex gap-1 flex-col justify-center items-center w-full">

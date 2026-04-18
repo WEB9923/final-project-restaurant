@@ -92,7 +92,23 @@
             <app-count [(value)]="quantity"></app-count>
           </div>
 
-          <button class="w-full btn bg-primary!">Add to cart</button>
+          <button
+            (click)="handleAddToCart()"
+            [disabled]="isLoading()"
+            class="w-full btn bg-primary! flex! items-center! gap-1.5!"
+            type="button"
+          >
+            @if (isLoading()) {
+              <svg
+                lucideLoader
+                [size]="18"
+                class="animate-spin"
+              ></svg>
+              Adding to cart...
+            } @else {
+              Add to cart
+            }
+          </button>
         </div>
       }
     </div>
@@ -103,7 +119,10 @@
 
         <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
           @for (product of product.products(); track product.id) {
-            <app-card [product]="product"></app-card>
+            <app-card
+              [product]="product"
+              (addToCart)="handleAddSingleProduct($event.id, $event.done)"
+            ></app-card>
           }
         </div>
       </div>

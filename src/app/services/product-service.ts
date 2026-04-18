@@ -30,6 +30,8 @@ export class ProductService {
   fetchProducts(filters: ProductFilter) {
     this._isLoading.set(true);
 
+    this._products.set([]);
+
     const params: Record<string, any> = {
       Take: Number(filters.take ?? 8),
       Page: Number(filters.page ?? 1),

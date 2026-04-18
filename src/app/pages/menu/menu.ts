@@ -8,6 +8,7 @@ import { LucideFunnel, LucidePackageOpen } from '@lucide/angular';
 import { Loader } from '../../components/ui/loader/loader';
 import { SheetService } from '../../services/sheet-service';
 import { Sheet } from '../../components/ui/sheet/sheet';
+import { CartService } from '../../services/cart-service';
 
 @Component({
   selector: 'app-menu',
@@ -20,11 +21,15 @@ export class Menu implements OnInit {
   private router = inject(Router);
   productService = inject(ProductService);
   sheet = inject(SheetService);
+  cart = inject(CartService);
 
   currentFilters = signal<ProductFilter | {}>({});
 
-  handleAddToCart(productId: number): void {
-    console.log(productId);
+  handleAddToCart(id: number, done: () => void): void {
+    this.cart.addToCart({ quantity: 1, productId: id }).subscribe({
+      next: (): void => done(),
+      error: (): void => done(),
+    });
   }
 
   openFiltersSheet(): void {
