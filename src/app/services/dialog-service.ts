@@ -58,7 +58,5 @@ export class DialogService {
     if (callback) {
       callback();
     }
-
-    this.close();
   }
 }

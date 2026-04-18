@@ -76,4 +76,33 @@ export class CartService {
       }),
     );
   }
+
+  deleteCartItem({ itemId }: { itemId: number }) {
+    this._isLoading.set(true);
+
+    return this.http
+      .delete<{ isSuccess: boolean }>(`${this.baseUrl}/cart/remove-from-cart/${itemId}`)
+      .pipe(
+        tap(({ isSuccess }) => {
+          if (isSuccess) {
+            this.toast.showToast({
+              message: 'Cart item deleted successfully',
+              type: 'success',
+            });
+          }
+
+          this._isLoading.set(false);
+        }),
+        catchError((err: HttpErrorResponse) => {
+          this.toast.showToast({
+            message: err.error?.detail || 'Failed to fetch cart items',
+            type: 'error',
+          });
+
+          this._isLoading.set(false);
+
+          return throwError(() => err);
+        }),
+      );
+  }
 }

@@ -5,6 +5,8 @@ import { Count } from '../../components/shared/count/count';
 import { LucideShoppingBag, LucideTrash2 } from '@lucide/angular';
 import { Loader } from '../../components/ui/loader/loader';
 import { RouterLink } from '@angular/router';
+import { DialogService } from '../../services/dialog-service';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -22,8 +24,27 @@ import { RouterLink } from '@angular/router';
 })
 export class Cart {
   cart = inject(CartService);
+  dialog = inject(DialogService);
 
-  totalPricePerProduct() {
-    return;
+  openDialog({ itemId }: { itemId: number }): void {
+    this.dialog.open({
+      title: 'Remove item?',
+      description: 'Are you sure you want to remove this item from your cart?',
+      actionText: 'Remove',
+      onAction: (): void => {
+        this.handleDeleteCartItem({ itemId });
+      },
+    });
+  }
+
+  handleDeleteCartItem({ itemId }: { itemId: number }): void {
+    this.cart
+      .deleteCartItem({ itemId })
+      .pipe(switchMap(() => this.cart.fetchCartProducts()))
+      .subscribe({
+        next: (): void => {
+          this.dialog.close();
+        },
+      });
   }
 }
