@@ -13,19 +13,33 @@
       <div class="mb-5 flex items-center justify-between">
         <div class="">
           <h2 class="title">Menu</h2>
-          <p class="subtitle">Showing 10 products</p>
+          <p class="subtitle">Showing {{ take() }} products</p>
         </div>
 
-        <button
-          (click)="openFiltersSheet()"
-          type="button"
-          class="btn-icon bg-input/40 hover:bg-input/75! lg:hidden!"
-        >
-          <svg
-            lucideFilter
-            [size]="20"
-          ></svg>
-        </button>
+        <div class="flex items-center gap-1">
+          <button
+            (click)="openFiltersSheet()"
+            type="button"
+            class="btn-bordered w-9! bg-input/40 hover:bg-input/75! lg:hidden! shrink-0"
+          >
+            <svg
+              lucideFilter
+              [size]="20"
+            ></svg>
+          </button>
+
+          <app-select
+            [options]="[
+              { label: '5 per page', value: 5 },
+              { label: '10 per page', value: 10 },
+              { label: '15 per page', value: 15 },
+              { label: '20 per page', value: 20 },
+              { label: '30 per page', value: 30 },
+            ]"
+            [(value)]="take"
+            classes="w-32!"
+          ></app-select>
+        </div>
       </div>
 
       <div

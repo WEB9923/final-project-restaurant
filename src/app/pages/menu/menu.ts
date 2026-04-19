@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { Filters } from '../../components/shared/filters/filters';
 import { ProductService } from '../../services/product-service';
 import { Card } from '../../components/shared/card/card';
@@ -10,10 +10,11 @@ import { SheetService } from '../../services/sheet-service';
 import { Sheet } from '../../components/ui/sheet/sheet';
 import { CartService } from '../../services/cart-service';
 import { switchMap } from 'rxjs';
+import { Select } from '../../components/shared/select/select';
 
 @Component({
   selector: 'app-menu',
-  imports: [Filters, Card, LucidePackageOpen, Loader, LucideFunnel, Sheet],
+  imports: [Filters, Card, LucidePackageOpen, Loader, LucideFunnel, Sheet, Select],
   templateUrl: './menu.html',
   styleUrl: './menu.css',
 })
@@ -25,6 +26,7 @@ export class Menu implements OnInit {
   cart = inject(CartService);
 
   currentFilters = signal<ProductFilter | {}>({});
+  take = signal<number>(10);
 
   handleAddToCart(id: number, done: () => void): void {
     this.cart
@@ -61,10 +63,24 @@ export class Menu implements OnInit {
         vegetarian: params['vegetarian'] === 'true' || params['vegetarian'] === true || false,
         minPrice: params['minPrice'] ? Number(params['minPrice']) : undefined,
         maxPrice: params['maxPrice'] ? Number(params['maxPrice']) : undefined,
+        take: params['take'] ? Number(params['take']) : undefined,
         // page: params['page'] ? Number(params['page']) : 1,
       });
 
       this.productService.fetchProducts(this.currentFilters()).subscribe();
+    });
+  }
+
+  constructor() {
+    effect((): void => {
+      const take = this.take();
+
+      this.router.navigate([], {
+        queryParams: {
+          take: take || null,
+        },
+        queryParamsHandling: 'merge',
+      });
     });
   }
 }
