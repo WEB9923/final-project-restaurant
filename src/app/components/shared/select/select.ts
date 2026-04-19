@@ -35,9 +35,9 @@ import { NgClass } from '@angular/common';
         @for (option of options(); track option.value) {
           <button
             (click)="select(option)"
-            class="w-full text-left px-2 py-1.5 cursor-pointer text-sm rounded-radius hover:bg-accent"
+            class="w-full text-left px-2 py-1.5 font-medium! cursor-pointer text-sm rounded-radius hover:bg-accent"
             [ngClass]="{
-              'bg-accent': option.value === value(),
+              'bg-accent text-primary': option.value === value(),
             }"
           >
             {{ option.label }}
