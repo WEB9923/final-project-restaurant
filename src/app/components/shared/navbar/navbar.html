@@ -94,7 +94,7 @@
 
             <div
               #userDropdown
-              class="z-50 invisible opacity-0 absolute top-full translate-y-2.5 right-0 md:min-w-68 min-w-60 max-w-full w-full bg-background border-2 border-border p-3 rounded-radius"
+              class="z-50 invisible opacity-0 absolute top-full translate-y-2.5 right-0 min-w-68 max-w-72 w-full bg-background border-2 border-border p-3 rounded-radius"
             >
               <h5 class="font-bold text-[15px] line-clamp-1">{{ auth.currentUser()?.email }}</h5>
               <p class="text-sm font-medium">
@@ -160,7 +160,7 @@
 
         <button
           (click)="toggleMobileMenu()"
-          class="btn-icon"
+          class="btn-icon sm:hidden!"
           type="button"
         >
           <svg
@@ -200,6 +200,7 @@
               @for (category of categoriesService.categories(); track category.id) {
                 <a
                   routerLink="/menu"
+                  (click)="closeMobileMenu()"
                   [queryParams]="{ categoryId: category.id }"
                   class="w-full p-2 py-1.5 rounded-radius hover:text-primary hover:bg-accent text-sm"
                 >
@@ -212,6 +213,7 @@
           <a
             #mobileMenuItem
             [routerLink]="link.route"
+            (click)="closeMobileMenu()"
             routerLinkActive="bg-accent text-primary!"
             [routerLinkActiveOptions]="link.route === '/' ? { exact: true } : { exact: false }"
             class="btn hover:bg-accent! justify-start! hover:text-primary! text-[16px] text-foreground! capitalize font-medium"
