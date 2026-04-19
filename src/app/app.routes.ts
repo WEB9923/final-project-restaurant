@@ -9,7 +9,11 @@ export const routes: Routes = [
     path: '',
     component: MainLayout,
     children: [
-      { path: '', loadComponent: () => import('./pages/home/home').then((m) => m.Home) },
+      {
+        path: '',
+        loadComponent: () => import('./pages/home/home').then((m) => m.Home),
+        title: 'Foodie',
+      },
       {
         path: 'menu',
         loadComponent: () => import('./pages/menu/menu').then((m) => m.Menu),
