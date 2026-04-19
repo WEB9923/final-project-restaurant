@@ -9,6 +9,7 @@ import { Count } from '../../components/shared/count/count';
 import { Card } from '../../components/shared/card/card';
 import { CartService } from '../../services/cart-service';
 import { switchMap } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-product',
@@ -28,6 +29,7 @@ import { switchMap } from 'rxjs';
 })
 export class Product {
   route = inject(ActivatedRoute);
+  title = inject(Title);
   product = inject(ProductService);
   cart = inject(CartService);
 
@@ -79,6 +81,14 @@ export class Product {
       if (!product?.categoryId) return;
 
       this.product.fetchProducts({ categoryId: product.categoryId, take: 4 }).subscribe();
+    });
+
+    effect((): void => {
+      const product = this.product.singleProduct();
+
+      if (!product) return;
+
+      this.title.setTitle(`Foodie | ${product.name}`);
     });
   }
 }
