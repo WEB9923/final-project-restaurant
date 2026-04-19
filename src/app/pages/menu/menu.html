@@ -37,6 +37,7 @@
               { label: '30 per page', value: 30 },
             ]"
             [(value)]="take"
+            (valueChange)="updateTake($event)"
             classes="w-32!"
           ></app-select>
         </div>

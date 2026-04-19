@@ -55,6 +55,15 @@ export class Menu implements OnInit {
     });
   }
 
+  updateTake(take: number | null | string): void {
+    this.router.navigate([], {
+      queryParams: {
+        take: take || null,
+      },
+      queryParamsHandling: 'merge',
+    });
+  }
+
   ngOnInit(): void {
     this.route.queryParams.subscribe((params): void => {
       this.currentFilters.set({
@@ -68,19 +77,6 @@ export class Menu implements OnInit {
       });
 
       this.productService.fetchProducts(this.currentFilters()).subscribe();
-    });
-  }
-
-  constructor() {
-    effect((): void => {
-      const take = this.take();
-
-      this.router.navigate([], {
-        queryParams: {
-          take: take || null,
-        },
-        queryParamsHandling: 'merge',
-      });
     });
   }
 }
