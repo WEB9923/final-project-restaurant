@@ -139,4 +139,20 @@ export class CartService {
         }),
       );
   }
+
+  checkout({ Take = 0, Page = 0 }: { Take?: number; Page?: number }) {
+    return this.http
+      .post<{ isSuccess: boolean }>(`${this.baseUrl}/cart/checkout`, { Take, Page })
+      .pipe(
+        tap(({ isSuccess }): void => {}),
+        catchError((err: HttpErrorResponse) => {
+          this.toast.showToast({
+            message: err.error?.detail || 'Failed to checkout',
+            type: 'error',
+          });
+
+          return throwError(() => err);
+        }),
+      );
+  }
 }

@@ -69,6 +69,38 @@
           }
         }
       </div>
+
+      @if (!productService.isLoading()) {
+        <div class="flex items-center mt-8 justify-center gap-3">
+          @if (page() > 1) {
+            <button
+              (click)="prevPage()"
+              class="btn bg-secondary! text-secondary-foreground! group"
+            >
+              <svg
+                lucideChevronLeft
+                [size]="18"
+                class="group-hover:-translate-x-1 transition-all duration-200"
+              ></svg>
+              Previous
+            </button>
+          }
+
+          @if (productService.hasMore()) {
+            <button
+              (click)="nextPage()"
+              class="btn bg-secondary! text-secondary-foreground! group"
+            >
+              Next
+              <svg
+                lucideChevronRight
+                [size]="18"
+                class="group-hover:translate-x-1 transition-all duration-200"
+              ></svg>
+            </button>
+          }
+        </div>
+      }
     </div>
   </div>
 </section>

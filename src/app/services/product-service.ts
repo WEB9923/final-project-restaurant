@@ -87,7 +87,7 @@ export class ProductService {
 
         catchError((err: HttpErrorResponse) => {
           this.toast.showToast({
-            message: err.error?.detail || 'Failed to load products',
+            message: err.error?.detail || 'Failed to load product',
             type: 'error',
           });
 

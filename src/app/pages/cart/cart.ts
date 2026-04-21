@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CartService } from '../../services/cart-service';
 import { CurrencyPipe, NgOptimizedImage } from '@angular/common';
 import { Count } from '../../components/shared/count/count';
@@ -25,6 +25,12 @@ import { switchMap } from 'rxjs';
 export class Cart {
   cart = inject(CartService);
   dialog = inject(DialogService);
+
+  subtotal = computed((): number => this.cart.cartProducts()?.totalPrice ?? 0);
+
+  tax = computed((): number => this.subtotal() * 0.1);
+
+  total = computed((): number => this.subtotal() + this.tax());
 
   openDialog({ itemId }: { itemId: number }): void {
     this.dialog.open({
@@ -53,5 +59,12 @@ export class Cart {
           this.dialog.close();
         },
       });
+  }
+
+  handleCheckout(): void {
+    this.cart
+      .checkout({})
+      .pipe(switchMap(() => this.cart.fetchCartProducts({ showLoader: true })))
+      .subscribe();
   }
 }
