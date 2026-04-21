@@ -36,12 +36,6 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/cart/cart').then((m) => m.Cart),
         title: 'Cart',
       },
-      {
-        path: 'settings',
-        canActivate: [authGuard],
-        loadComponent: () => import('./pages/settings/settings').then((m) => m.Settings),
-        title: 'Settings',
-      },
     ],
   },
 
