@@ -30,11 +30,19 @@
               [type]="registerFormItem.type"
               [placeholder]="registerFormItem.placeholder"
               [id]="registerFormItem.name"
-              [name]="registerFormItem.name"
-              [(ngModel)]="registerModel()[registerFormItem.name]"
+              [formField]="registerForm[registerFormItem.name]"
               autocomplete="off"
               class="input h-9 w-full"
             />
+
+            @if (
+              registerForm[registerFormItem.name]().touched() &&
+              registerForm[registerFormItem.name]().invalid()
+            ) {
+              @for (error of registerForm[registerFormItem.name]().errors(); track $index) {
+                <p class="text-destructive text-[15px]">{{ error.message }}</p>
+              }
+            }
 
             @if (registerFormItem.isPassword) {
               <app-password-prerequisite></app-password-prerequisite>
@@ -42,30 +50,33 @@
           </div>
         }
 
-        <button
-          [disabled]="isLoading()"
-          type="submit"
-          class="btn bg-primary relative col-span-2 overflow-hidden"
-        >
-          <div
-            #textBlock
-            class="inset-0 absolute flex items-center justify-center"
-          >
-            Create account
-          </div>
+        <!--        <button-->
+        <!--          [disabled]="auth.isLoading() || registerForm().invalid()"-->
+        <!--          type="submit"-->
+        <!--          class="btn bg-primary relative col-span-2 overflow-hidden"-->
+        <!--        >-->
+        <!--          @if (auth.isLoading()) {-->
+        <!--            <div class="flex items-center gap-2">-->
+        <!--              <svg-->
+        <!--                lucideLoader-->
+        <!--                [size]="18"-->
+        <!--                class="animate-spin"-->
+        <!--              ></svg>-->
+        <!--              Please wait...-->
+        <!--            </div>-->
+        <!--          } @else {-->
+        <!--            Register-->
+        <!--          }-->
+        <!--        </button>-->
 
-          <div
-            #loaderBlock
-            class="flex items-center justify-center absolute inset-0 opacity-0 gap-1.5 translate-y-10"
-          >
-            <svg
-              lucideLoader2
-              [size]="18"
-              class="animate-spin"
-            ></svg>
-            Please wait...
-          </div>
-        </button>
+        <app-button
+          label="Register"
+          [disabled]="auth.isLoading() || registerForm().invalid()"
+          type="submit"
+          variant="default"
+          [loading]="auth.isLoading()"
+          classNames="w-full col-span-2"
+        />
       </form>
 
       <div class="mt-5 text-center text-[15.5px] font-medium">

@@ -53,24 +53,14 @@
           </div>
         }
 
-        <button
-          [disabled]="auth.isLoading() || loginForm().invalid()"
+        <app-button
+          label="Sign in"
           type="submit"
-          class="btn bg-primary relative col-span-2 overflow-hidden"
-        >
-          @if (auth.isLoading()) {
-            <div class="flex items-center gap-2">
-              <svg
-                lucideLoader
-                [size]="18"
-                class="animate-spin"
-              ></svg>
-              Please wait...
-            </div>
-          } @else {
-            Sign in
-          }
-        </button>
+          variant="default"
+          [disabled]="auth.isLoading() || loginForm().invalid()"
+          [loading]="auth.isLoading()"
+          classNames="w-full"
+        />
       </form>
 
       <div class="mt-5 text-center text-[15.5px] font-medium">

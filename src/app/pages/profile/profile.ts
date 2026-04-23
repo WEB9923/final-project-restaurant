@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { UserService } from '../../services/user-service';
 import { NgClass } from '@angular/common';
 import { ProfileField, ProfileFormModel } from '../../interfaces/profile-form';
@@ -8,10 +8,13 @@ import { NewPasswordField } from '../../interfaces/new-password-form';
 import { NewPasswordModel } from '../../models/new-password-model';
 import { PasswordPrerequisite } from '../../components/ui/password-prerequisite/password-prerequisite';
 import { DialogService } from '../../services/dialog-service';
+import { Button } from '../../components/ui/button/button';
+import { form, FormField, validateStandardSchema } from '@angular/forms/signals';
+import { newPasswordSchema } from '../../schemas/profile-schema';
 
 @Component({
   selector: 'app-profile',
-  imports: [NgClass, FormsModule, SideRibbon, PasswordPrerequisite],
+  imports: [NgClass, FormsModule, SideRibbon, PasswordPrerequisite, Button, FormField],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
@@ -29,11 +32,15 @@ export class Profile implements OnInit {
     email: '',
   };
 
-  newPasswordFormModel: NewPasswordModel = {
+  newPasswordFormModel = signal<NewPasswordModel>({
     oldPassword: '',
     newPassword: '',
     confirmPassword: '',
-  };
+  });
+
+  newPasswordForm = form(this.newPasswordFormModel, (path): void =>
+    validateStandardSchema(path, newPasswordSchema),
+  );
 
   profileFields: ProfileField[] = [
     {
@@ -126,7 +133,7 @@ export class Profile implements OnInit {
   handleUpdatePassword(evt: SubmitEvent): void {
     evt.preventDefault();
 
-    this.user.updatePassword(this.newPasswordFormModel).subscribe();
+    this.user.updatePassword(this.newPasswordFormModel()).subscribe();
   }
 
   showDialog(): void {

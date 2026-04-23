@@ -4,6 +4,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { ToastService } from './toast-service';
 import { CartProductModel } from '../models/product-model';
+import { AuthService } from './auth-service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,7 @@ import { CartProductModel } from '../models/product-model';
 export class CartService {
   private http = inject(HttpClient);
   private toast = inject(ToastService);
+  private auth = inject(AuthService);
 
   private baseUrl = environment.baseUrl;
 
@@ -75,10 +77,12 @@ export class CartService {
       }),
 
       catchError((err: HttpErrorResponse) => {
-        this.toast.showToast({
-          message: err.error?.detail || 'Failed to fetch cart items',
-          type: 'error',
-        });
+        if (this.auth.isLoggedIn()) {
+          this.toast.showToast({
+            message: err.error?.detail || 'Failed to fetch cart items',
+            type: 'error',
+          });
+        }
 
         if (showLoader) {
           this._isLoading.set(false);

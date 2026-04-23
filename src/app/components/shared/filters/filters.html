@@ -87,13 +87,12 @@
     </div>
 
     <div class="mt-1">
-      <button
-        type="button"
-        (click)="clearAll()"
-        class="btn-bordered w-full!"
-      >
-        Clear all filters
-      </button>
+      <app-button
+        label="Clear all filters"
+        variant="outline"
+        classNames="w-full"
+        (clicked)="clearAll()"
+      />
     </div>
   </div>
 </ng-container>

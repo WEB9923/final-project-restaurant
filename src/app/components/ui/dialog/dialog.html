@@ -28,19 +28,17 @@
       </div>
 
       <footer class="flex justify-end items-center gap-2">
-        <button
-          (click)="onClose()"
-          class="btn bg-input! text-foreground!"
-        >
-          Close
-        </button>
+        <app-button
+          (clicked)="onClose()"
+          variant="secondary"
+          label="Close"
+        />
         @if (dialog.actionText()) {
-          <button
-            (click)="dialog.onAction()"
-            class="btn bg-destructive! hover:bg-destructive/85!"
-          >
-            {{ dialog.actionText() }}
-          </button>
+          <app-button
+            (clicked)="dialog.onAction()"
+            variant="destructive"
+            [label]="dialog.actionText()"
+          />
         }
       </footer>
     </div>

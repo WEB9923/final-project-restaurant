@@ -14,7 +14,7 @@ import { LucideCircleDot } from '@lucide/angular';
         ];
         track $index
       ) {
-        <p class="flex items-center text-muted-foreground gap-0.5">
+        <p class="flex items-center text-muted-foreground gap-0.5 select-none">
           <svg
             lucideCircleDot
             [size]="15"

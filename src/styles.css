@@ -126,7 +126,7 @@
 .btn {
   @apply rounded-radius text-primary-foreground cursor-pointer px-1.5
 	hover:opacity-85 h-9 flex items-center justify-center font-medium!
-  disabled:opacity-85 disabled:pointer-events-none;
+  disabled:opacity-75 disabled:pointer-events-none;
 }
 
 .btn-icon {

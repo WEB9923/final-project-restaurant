@@ -19,7 +19,10 @@ export class UserService {
   private baseUrl = environment.baseUrl;
 
   private _profile = signal<ProfileModel | null>(null);
+  private _isLoading = signal<boolean>(false);
+
   readonly profile = this._profile.asReadonly();
+  readonly isLoading = this._isLoading.asReadonly();
 
   fetchProfile(): Observable<{ data: ProfileModel }> {
     return this.http.get<{ data: ProfileModel }>(`${this.baseUrl}/users/profile`).pipe(
@@ -72,6 +75,8 @@ export class UserService {
   }
 
   updatePassword(data: NewPasswordModel) {
+    this._isLoading.set(true);
+
     return this.http
       .put<{
         isSuccess: boolean;
@@ -85,12 +90,16 @@ export class UserService {
               type: 'success',
             });
           }
+
+          this._isLoading.set(false);
         }),
         catchError((err: HttpErrorResponse) => {
           this.toast.showToast({
             message: err.error?.detail || 'Failed to update password',
             type: 'error',
           });
+
+          this._isLoading.set(false);
 
           return throwError(() => err);
         }),

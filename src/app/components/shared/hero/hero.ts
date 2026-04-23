@@ -1,20 +1,20 @@
 import { AfterViewInit, Component, ElementRef, viewChild } from '@angular/core';
 import gsap from 'gsap';
 import { SplitText } from 'gsap/SplitText';
-import { RouterLink } from '@angular/router';
+import { Button } from '../../ui/button/button';
 
 gsap.registerPlugin(SplitText);
 
 @Component({
   selector: 'app-hero',
-  imports: [RouterLink],
+  imports: [Button],
   templateUrl: './hero.html',
   styleUrl: './hero.css',
 })
 export class Hero implements AfterViewInit {
   heroTitle = viewChild.required<ElementRef<HTMLHeadElement>>('heroTitle');
   heroText = viewChild.required<ElementRef<HTMLParagraphElement>>('heroText');
-  herroButton = viewChild.required<ElementRef<HTMLButtonElement>>('heroButton');
+  herroButton = viewChild.required(Button, { read: ElementRef });
 
   ngAfterViewInit(): void {
     const title = this.heroTitle().nativeElement;
@@ -31,6 +31,7 @@ export class Hero implements AfterViewInit {
       opacity: 0,
       stagger: 0.04,
       duration: 0.4,
+      delay: 0.4,
     })
       .from(
         splitText.chars,

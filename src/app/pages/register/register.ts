@@ -1,16 +1,17 @@
-import { Component, effect, ElementRef, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { IRegisterForm, IRegisterModel } from '../../interfaces/register-form';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
-import { LucideLoaderCircle } from '@lucide/angular';
-import gsap from 'gsap';
 import { PasswordPrerequisite } from '../../components/ui/password-prerequisite/password-prerequisite';
+import { form, FormField, validateStandardSchema } from '@angular/forms/signals';
+import { registerSchema } from '../../schemas/register-schema';
+import { Button } from '../../components/ui/button/button';
 
 @Component({
   selector: 'app-register',
-  imports: [NgClass, RouterLink, FormsModule, LucideLoaderCircle, PasswordPrerequisite],
+  imports: [NgClass, RouterLink, FormsModule, PasswordPrerequisite, FormField, Button],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
@@ -23,10 +24,10 @@ export class Register {
     email: '',
     password: '',
   });
-  isLoading = signal<boolean>(false);
 
-  textBlock = viewChild.required<ElementRef<HTMLDivElement>>('textBlock');
-  loaderBlock = viewChild.required<ElementRef<HTMLDivElement>>('loaderBlock');
+  registerForm = form(this.registerModel, (path): void =>
+    validateStandardSchema(path, registerSchema),
+  );
 
   registerFormItems: (IRegisterForm & { name: keyof IRegisterModel })[] = [
     {
@@ -64,50 +65,13 @@ export class Register {
     },
   ];
 
-  constructor() {
-    effect((): void => {
-      const loading = this.isLoading();
-      const text = this.textBlock().nativeElement;
-      const loader = this.loaderBlock().nativeElement;
-
-      if (loading) {
-        const tl = gsap.timeline();
-
-        tl.to(text, { y: -10, opacity: 0, duration: 0.15 }).fromTo(
-          loader,
-          {
-            y: 10,
-            opacity: 0,
-          },
-          { y: 0, opacity: 1, duration: 0.15 },
-          '-=0.2',
-        );
-      } else {
-        const tl = gsap.timeline();
-
-        tl.to(loader, { y: 10, opacity: 0, duration: 0.15 }).to(text, {
-          y: 0,
-          opacity: 1,
-          duration: 0.15,
-        });
-      }
-    });
-  }
-
   handleRegister(evt: SubmitEvent): void {
     evt.preventDefault();
-    this.isLoading.set(true);
 
-    this.auth.register(this.registerModel()).subscribe({
-      next: (): void => {
-        this.isLoading.set(false);
-      },
-      error: (): void => {
-        this.isLoading.set(false);
-      },
-      complete: (): void => {
-        this.isLoading.set(false);
-      },
-    });
+    if (this.registerForm().invalid()) return;
+
+    // console.log(this.registerForm().value());
+
+    this.auth.register(this.registerModel()).subscribe();
   }
 }

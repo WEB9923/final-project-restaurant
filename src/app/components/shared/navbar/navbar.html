@@ -129,22 +129,27 @@
             </div>
           </div>
         } @else {
-          <div class="flex items-center gap-2">
-            <button
-              #navItem
-              routerLink="/auth/login"
-              class="btn bg-secondary! text-foreground! px-4! capitalize"
-            >
-              log in
-            </button>
-            <button
-              #navItem
-              routerLink="/auth/register"
-              class="btn px-4! capitalize bg-primary"
-            >
-              register
-            </button>
-          </div>
+          @if (!auth.isLoading()) {
+            <div class="flex items-center gap-2">
+              <div #navItem>
+                <app-button
+                  variant="secondary"
+                  link="/auth/login"
+                  label="Log in"
+                  [loading]="auth.isLoading()"
+                />
+              </div>
+
+              <div #navItem>
+                <app-button
+                  variant="default"
+                  link="/auth/register"
+                  label="Register"
+                  [loading]="auth.isLoading()"
+                />
+              </div>
+            </div>
+          }
         }
 
         <button

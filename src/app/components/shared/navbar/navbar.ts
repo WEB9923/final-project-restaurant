@@ -12,7 +12,6 @@ import {
   LucideChevronDown,
   LucideLogOut,
   LucideMenu,
-  LucideSettings,
   LucideShoppingCart,
   LucideUser,
 } from '@lucide/angular';
@@ -23,6 +22,7 @@ import { AuthService } from '../../../services/auth-service';
 import { Separator } from '../../ui/separator/separator';
 import { CategoriesService } from '../../../services/categories-service';
 import { CartService } from '../../../services/cart-service';
+import { Button } from '../../ui/button/button';
 
 @Component({
   selector: 'app-navbar',
@@ -32,11 +32,11 @@ import { CartService } from '../../../services/cart-service';
     NgClass,
     RouterLinkActive,
     Separator,
-    LucideSettings,
     LucideUser,
     LucideLogOut,
     LucideShoppingCart,
     LucideMenu,
+    Button,
   ],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',

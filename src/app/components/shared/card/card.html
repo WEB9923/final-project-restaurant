@@ -29,20 +29,13 @@
       </div>
     </div>
 
-    <button
-      (click)="onAddToCart($event)"
-      class="btn bg-primary mt-auto flex! items-center! gap-2!"
-    >
-      @if (isLoading()) {
-        <svg
-          lucideLoader
-          [size]="18"
-          class="animate-spin"
-        ></svg>
-        Adding to cart..
-      } @else {
-        Add to cart
-      }
-    </button>
+    <app-button
+      (clicked)="onAddToCart($event)"
+      [loading]="isLoading()"
+      variant="default"
+      loadingText="Adding to cart.."
+      label="Add to cart"
+      classNames="w-full"
+    />
   </div>
 </article>

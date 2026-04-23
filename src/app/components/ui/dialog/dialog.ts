@@ -3,10 +3,11 @@ import { DialogService } from '../../../services/dialog-service';
 import { LucideX } from '@lucide/angular';
 import { Separator } from '../separator/separator';
 import gsap from 'gsap';
+import { Button } from '../button/button';
 
 @Component({
   selector: 'app-dialog',
-  imports: [LucideX, Separator],
+  imports: [LucideX, Separator, Button],
   templateUrl: './dialog.html',
   styleUrl: './dialog.css',
 })

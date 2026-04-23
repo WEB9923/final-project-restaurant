@@ -6,10 +6,11 @@ import { ILoginForm, ILoginModel } from '../../interfaces/login-form';
 import { AuthService } from '../../services/auth-service';
 import { form, FormField, validateStandardSchema } from '@angular/forms/signals';
 import { loginSchema } from '../../schemas/login-schema';
+import { Button } from '../../components/ui/button/button';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, RouterLink, FormField, LucideLoader],
+  imports: [FormsModule, RouterLink, FormField, LucideLoader, Button],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })

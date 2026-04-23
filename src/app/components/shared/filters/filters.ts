@@ -4,10 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { ProductFilter } from '../../../interfaces/product-filter';
 import { CategoriesService } from '../../../services/categories-service';
 import { Loader } from '../../ui/loader/loader';
+import { Button } from '../../ui/button/button';
 
 @Component({
   selector: 'app-filters',
-  imports: [Switch, FormsModule, Loader],
+  imports: [Switch, FormsModule, Loader, Button],
   templateUrl: './filters.html',
   styleUrl: './filters.css',
 })

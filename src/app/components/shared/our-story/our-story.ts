@@ -1,21 +1,14 @@
-import {
-  afterNextRender,
-  AfterViewInit,
-  Component,
-  ElementRef,
-  viewChild,
-  viewChildren,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, viewChild, viewChildren } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Button } from '../../ui/button/button';
 
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-our-story',
-  imports: [NgOptimizedImage, RouterLink],
+  imports: [NgOptimizedImage, Button],
   template: `
     <section class="py-12 min-h-[50vh]">
       <div
@@ -58,14 +51,14 @@ gsap.registerPlugin(ScrollTrigger);
             </p>
           </div>
 
-          <button
-            #ourStoryItem
-            routerLink="/menu"
-            type="button"
-            class="btn w-fit bg-primary! text-primary-foreground!"
-          >
-            Explore our menu
-          </button>
+          <div #outStoryItem>
+            <app-button
+              label="Expore our menu"
+              link="/menu"
+              type="button"
+              classNames="w-fit"
+            />
+          </div>
         </div>
       </div>
     </section>

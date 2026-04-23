@@ -51,12 +51,11 @@
           </div>
         }
 
-        <button
+        <app-button
+          label="Save changes"
+          variant="default"
           type="submit"
-          class="btn w-fit bg-primary! text-primary-foreground!"
-        >
-          Save changes
-        </button>
+        />
       </form>
     </div>
 
@@ -81,13 +80,21 @@
 
             <input
               [id]="newPasswordFormItem.name"
-              [name]="newPasswordFormItem.name"
               [type]="newPasswordFormItem.type"
               [placeholder]="newPasswordFormItem.placeholder"
-              [(ngModel)]="newPasswordFormModel[newPasswordFormItem.name]"
+              [formField]="newPasswordForm[newPasswordFormItem.name]"
               autocomplete="off"
               class="input h-9 w-full disabled:opacity-80! disabled:text-muted-foreground"
             />
+
+            @if (
+              newPasswordForm[newPasswordFormItem.name]().touched() &&
+              newPasswordForm[newPasswordFormItem.name]().invalid()
+            ) {
+              @for (error of newPasswordForm[newPasswordFormItem.name]().errors(); track $index) {
+                <p class="text-destructive text-[15px]">{{ error.message }}</p>
+              }
+            }
 
             @if (newPasswordFormItem.name === 'confirmPassword') {
               <app-password-prerequisite></app-password-prerequisite>
@@ -95,12 +102,15 @@
           </div>
         }
 
-        <button
+        <app-button
+          label="Update password"
           type="submit"
-          class="btn w-fit bg-primary! text-primary-foreground!"
-        >
-          Update password
-        </button>
+          variant="default"
+          classNames="w-fit"
+          loadingText="Updating password.."
+          [loading]="user.isLoading()"
+          [disabled]="user.isLoading() || newPasswordForm().invalid()"
+        />
       </form>
     </div>
 
