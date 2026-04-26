@@ -19,6 +19,10 @@
             (mouseenter)="openDropdown()"
             (mouseleave)="closeDropdown()"
             class="z-50 relative h-full"
+            [ngClass]="{
+              'before:w-2.5 before:h-2.5 before:rounded-full before:bg-primary before:absolute before:-top-1.5 before:-right-1.5':
+                !!activatedCategoryId(),
+            }"
           >
             <a
               #navItem
@@ -42,6 +46,10 @@
                   routerLink="/menu"
                   [queryParams]="{ categoryId: category.id }"
                   class="w-full p-2 py-1.5 rounded-radius hover:text-primary hover:bg-accent text-sm"
+                  (click)="closeDropdown()"
+                  [ngClass]="{
+                    'bg-accent text-primary': category.id === activatedCategoryId(),
+                  }"
                 >
                   {{ category.name }}
                 </a>
@@ -197,6 +205,9 @@
                   (click)="closeMobileMenu()"
                   [queryParams]="{ categoryId: category.id }"
                   class="w-full p-2 py-1.5 rounded-radius hover:text-primary hover:bg-accent text-sm"
+                  [ngClass]="{
+                    'bg-accent text-primary': category.id === activatedCategoryId(),
+                  }"
                 >
                   {{ category.name }}
                 </a>

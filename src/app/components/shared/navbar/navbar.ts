@@ -1,13 +1,14 @@
 import {
   AfterViewInit,
   Component,
+  computed,
   ElementRef,
   inject,
   OnInit,
   viewChild,
   viewChildren,
 } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
 import {
   LucideChevronDown,
   LucideLogOut,
@@ -23,6 +24,7 @@ import { Separator } from '../../ui/separator/separator';
 import { CategoriesService } from '../../../services/categories-service';
 import { CartService } from '../../../services/cart-service';
 import { Button } from '../../ui/button/button';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-navbar',
@@ -46,11 +48,21 @@ export class Navbar implements OnInit, AfterViewInit {
   auth = inject(AuthService);
   cart = inject(CartService);
 
+  activeRoute = inject(ActivatedRoute);
+
   navLinks = NAV_LINKS;
   isDropdownOpened: boolean = false;
   isUserDropdownOpened: boolean = false;
   isMobileMenuOpened: boolean = false;
   isMobileCategoriesDropdownOpened: boolean = false;
+
+  queryParams = toSignal(this.activeRoute.queryParamMap);
+
+  activatedCategoryId = computed((): number | null => {
+    const id = this.queryParams()?.get('categoryId');
+
+    return id ? Number(id) : null;
+  });
 
   dropdown = viewChild.required<ElementRef<HTMLElement>>('dropdown');
   navItems = viewChildren<ElementRef<HTMLElement>>('navItem');
@@ -143,6 +155,7 @@ export class Navbar implements OnInit, AfterViewInit {
         x: '-100%',
         duration: 0.3,
         ease: 'power3.in',
+        onComplete: (): void => this.hideMobileCategoriesDropdown(),
       },
       '-=0.1',
     );
