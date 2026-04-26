@@ -64,6 +64,7 @@ export class Button {
   classNames = input<string>('');
 
   link = input<string | any[] | null>(null);
+  replaceUrl = input<true | false>(false);
 
   clicked = output<MouseEvent>();
 
@@ -77,7 +78,7 @@ export class Button {
     if (this.link()) {
       event?.preventDefault();
       event.stopPropagation();
-      this.router.navigate([this.link()]);
+      this.router.navigate([this.link()], { replaceUrl: this.replaceUrl() });
       return;
     }
 
