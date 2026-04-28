@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
 import { ActivatedRoute } from '@angular/router';
+import { Button } from '../../components/ui/button/button';
 
 @Component({
   selector: 'app-verify',
-  imports: [FormsModule],
+  imports: [FormsModule, Button],
   templateUrl: './verify.html',
   styleUrl: './verify.css',
 })

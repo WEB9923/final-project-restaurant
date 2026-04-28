@@ -150,6 +150,63 @@ export class AuthService {
       );
   }
 
+  forgotPassword({ email }: { email: string }) {
+    this._isLoading.set(true);
+
+    return this.httpClient
+      .post<{ data: string }>(`${this.baseUrl}/auth/forgot-password/${email}`, {})
+      .pipe(
+        tap((res): void => {
+          this.toast.showToast({
+            message: 'Email sent',
+            type: 'success',
+          });
+
+          this._isLoading.set(false);
+        }),
+        catchError((err: HttpErrorResponse) => {
+          this.toast.showToast({
+            message: err.error?.detail || 'Failed to sent reset password email',
+            type: 'error',
+          });
+
+          this._isLoading.set(false);
+
+          return throwError(() => err);
+        }),
+      );
+  }
+
+  resetPassword({ token, newPassword }: { token: string; newPassword: string }) {
+    this._isLoading.set(true);
+
+    return this.httpClient
+      .put(`${this.baseUrl}/auth/reset-password`, {
+        token,
+        newPassword,
+      })
+      .pipe(
+        tap((res) => {
+          this.toast.showToast({
+            message: 'Password updated successfully',
+            type: 'success',
+          });
+
+          this._isLoading.set(false);
+        }),
+        catchError((err: HttpErrorResponse) => {
+          this.toast.showToast({
+            message: err.error?.detail || 'Failed to update password',
+            type: 'error',
+          });
+
+          this._isLoading.set(false);
+
+          return throwError(() => err);
+        }),
+      );
+  }
+
   logout(): void {
     localStorage.removeItem(this.ACCESS_KEY);
     localStorage.removeItem(this.REFRESH_KEY);

@@ -55,6 +55,18 @@ export const routes: Routes = [
         title: 'Register',
       },
       {
+        path: 'forgot-password',
+        loadComponent: () =>
+          import('./pages/forgot-password/forgot-password').then((m) => m.ForgotPassword),
+        title: 'Reset password',
+      },
+      {
+        path: 'reset-password',
+        loadComponent: () =>
+          import('./pages/reset-password/reset-password').then((m) => m.ResetPassword),
+        title: 'Forgot password',
+      },
+      {
         path: 'verify',
         loadComponent: () => import('./pages/verify/verify').then((m) => m.Verify),
         title: 'Verify Email',
