@@ -4,6 +4,7 @@ export interface ProductFilter {
   page?: number;
   take?: number;
   vegetarian?: boolean;
+  spiciness?: number;
   minPrice?: number;
   maxPrice?: number;
 }

@@ -42,6 +42,7 @@ export class ProductService {
     if (filters.vegetarian) params['Vegetarian'] = Boolean(filters.vegetarian);
     if (filters.minPrice) params['MinPrice'] = Number(filters.minPrice);
     if (filters.maxPrice) params['MaxPrice'] = Number(filters.maxPrice);
+    if (filters.spiciness) params['Spiciness'] = Number(filters.spiciness);
 
     return this.http
       .get<{

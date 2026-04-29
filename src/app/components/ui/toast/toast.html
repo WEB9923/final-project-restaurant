@@ -1,7 +1,7 @@
 @if (toast.show()) {
   <div
     #toastElement
-    class="fixed rounded-radius z-100 bottom-5 right-5 p-3 border-2 min-w-60 shadow-lg sm:max-w-80 max-w-full opacity-0"
+    class="fixed rounded-radius z-100 bottom-5 right-5 p-4 border-2 min-w-60 shadow-lg sm:max-w-80 max-w-full opacity-0"
     [ngClass]="{
       'bg-emerald-100 border-emerald-300 text-emerald-600': toast.toastType() === 'success',
       'bg-red-100 border-red-300 text-red-600': toast.toastType() === 'error',

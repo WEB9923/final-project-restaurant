@@ -66,6 +66,7 @@ export class Menu implements OnInit {
         vegetarian: filters.vegetarian || null,
         minPrice: filters.minPrice || null,
         maxPrice: filters.maxPrice || null,
+        spiciness: filters.spiciness || null,
       },
       queryParamsHandling: 'merge',
     });
@@ -130,6 +131,7 @@ export class Menu implements OnInit {
         maxPrice: params['maxPrice'] ? Number(params['maxPrice']) : undefined,
         take: params['take'] ? Number(params['take']) : undefined,
         page: this.page(),
+        spiciness: params['spiciness'] ? Number(params['spiciness']) : undefined,
       });
 
       this.productService.fetchProducts(this.currentFilters()).subscribe();
