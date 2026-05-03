@@ -1,16 +1,17 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { LucideLoader } from '@lucide/angular';
 import { RouterLink } from '@angular/router';
 import { ILoginForm, ILoginModel } from '../../interfaces/login-form';
 import { AuthService } from '../../services/auth-service';
 import { form, FormField, validateStandardSchema } from '@angular/forms/signals';
 import { loginSchema } from '../../schemas/login-schema';
 import { Button } from '../../components/ui/button/button';
+import { NgClass } from '@angular/common';
+import { InvalidInput } from '../../directives/invalid-input';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, RouterLink, FormField, LucideLoader, Button],
+  imports: [FormsModule, RouterLink, FormField, Button, NgClass, InvalidInput],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })

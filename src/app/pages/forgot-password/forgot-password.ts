@@ -5,10 +5,11 @@ import { form, FormField, validateStandardSchema } from '@angular/forms/signals'
 import { forgotPasswordSchema } from '../../schemas/forgot-password-schema';
 import { AuthService } from '../../services/auth-service';
 import { Router } from '@angular/router';
+import { InvalidInput } from '../../directives/invalid-input';
 
 @Component({
   selector: 'app-forgot-password',
-  imports: [Button, FormField],
+  imports: [Button, FormField, InvalidInput],
   templateUrl: './forgot-password.html',
   styleUrl: './forgot-password.css',
 })

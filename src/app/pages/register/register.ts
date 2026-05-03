@@ -8,10 +8,19 @@ import { PasswordPrerequisite } from '../../components/ui/password-prerequisite/
 import { form, FormField, validateStandardSchema } from '@angular/forms/signals';
 import { registerSchema } from '../../schemas/register-schema';
 import { Button } from '../../components/ui/button/button';
+import { InvalidInput } from '../../directives/invalid-input';
 
 @Component({
   selector: 'app-register',
-  imports: [NgClass, RouterLink, FormsModule, PasswordPrerequisite, FormField, Button],
+  imports: [
+    NgClass,
+    RouterLink,
+    FormsModule,
+    PasswordPrerequisite,
+    FormField,
+    Button,
+    InvalidInput,
+  ],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })

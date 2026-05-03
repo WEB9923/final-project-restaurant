@@ -31,6 +31,8 @@
               [placeholder]="registerFormItem.placeholder"
               [id]="registerFormItem.name"
               [formField]="registerForm[registerFormItem.name]"
+              appInvalidInput
+              [field]="registerForm[registerFormItem.name]"
               autocomplete="off"
               class="input h-9 w-full"
             />
@@ -49,25 +51,6 @@
             }
           </div>
         }
-
-        <!--        <button-->
-        <!--          [disabled]="auth.isLoading() || registerForm().invalid()"-->
-        <!--          type="submit"-->
-        <!--          class="btn bg-primary relative col-span-2 overflow-hidden"-->
-        <!--        >-->
-        <!--          @if (auth.isLoading()) {-->
-        <!--            <div class="flex items-center gap-2">-->
-        <!--              <svg-->
-        <!--                lucideLoader-->
-        <!--                [size]="18"-->
-        <!--                class="animate-spin"-->
-        <!--              ></svg>-->
-        <!--              Please wait...-->
-        <!--            </div>-->
-        <!--          } @else {-->
-        <!--            Register-->
-        <!--          }-->
-        <!--        </button>-->
 
         <app-button
           label="Register"

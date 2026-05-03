@@ -26,6 +26,8 @@
               [placeholder]="loginFormItem.placeholder"
               [id]="loginFormItem.name"
               [formField]="loginForm[loginFormItem.name]"
+              appInvalidInput
+              [field]="loginForm[loginFormItem.name]"
               autocomplete="off"
               class="input h-9 w-full"
             />

@@ -11,10 +11,19 @@ import { DialogService } from '../../services/dialog-service';
 import { Button } from '../../components/ui/button/button';
 import { form, FormField, validateStandardSchema } from '@angular/forms/signals';
 import { newPasswordSchema } from '../../schemas/profile-schema';
+import { InvalidInput } from '../../directives/invalid-input';
 
 @Component({
   selector: 'app-profile',
-  imports: [NgClass, FormsModule, SideRibbon, PasswordPrerequisite, Button, FormField],
+  imports: [
+    NgClass,
+    FormsModule,
+    SideRibbon,
+    PasswordPrerequisite,
+    Button,
+    FormField,
+    InvalidInput,
+  ],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })

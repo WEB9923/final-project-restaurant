@@ -6,10 +6,11 @@ import { Button } from '../../components/ui/button/button';
 import { AuthService } from '../../services/auth-service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { InvalidInput } from '../../directives/invalid-input';
 
 @Component({
   selector: 'app-reset-password',
-  imports: [FormField, Button],
+  imports: [FormField, Button, InvalidInput],
   templateUrl: './reset-password.html',
   styleUrl: './reset-password.css',
 })

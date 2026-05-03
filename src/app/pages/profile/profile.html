@@ -83,6 +83,8 @@
               [type]="newPasswordFormItem.type"
               [placeholder]="newPasswordFormItem.placeholder"
               [formField]="newPasswordForm[newPasswordFormItem.name]"
+              appInvalidInput
+              [field]="newPasswordForm[newPasswordFormItem.name]"
               autocomplete="off"
               class="input h-9 w-full disabled:opacity-80! disabled:text-muted-foreground"
             />
