@@ -3,6 +3,7 @@ import { MainLayout } from './layouts/main-layout/main-layout';
 import { AuthLayout } from './layouts/auth-layout/auth-layout';
 import { authGuard } from './guards/auth-guard';
 import { guestGuard } from './guards/guest-guard';
+import { AdminLayout } from './layouts/admin-layout/admin-layout';
 
 export const routes: Routes = [
   {
@@ -35,6 +36,27 @@ export const routes: Routes = [
         canActivate: [authGuard],
         loadComponent: () => import('./pages/cart/cart').then((m) => m.Cart),
         title: 'Cart',
+      },
+
+      // ADMIN
+      {
+        path: 'admin',
+        canActivate: [authGuard],
+        component: AdminLayout,
+        children: [
+          { path: '', pathMatch: 'full', redirectTo: 'products' },
+          {
+            path: 'products',
+            loadComponent: () => import('./pages/admin/products/products').then((m) => m.Products),
+            title: 'Admin - Products',
+          },
+          {
+            path: 'categories',
+            loadComponent: () =>
+              import('./pages/admin/categories/categories').then((m) => m.Categories),
+            title: 'Admin - Categories',
+          },
+        ],
       },
     ],
   },

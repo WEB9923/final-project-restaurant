@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, output } from '@angular/core';
-import { LucideLoader } from '@lucide/angular';
+import { LucideDynamicIcon, LucideIcon, LucideLoader } from '@lucide/angular';
 import { Router } from '@angular/router';
 
 type ButtonVariant = 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
@@ -30,7 +30,7 @@ const base = [
 
 @Component({
   selector: 'app-button',
-  imports: [LucideLoader],
+  imports: [LucideLoader, LucideDynamicIcon],
   template: `
     <button
       [class]="classes()"
@@ -46,7 +46,16 @@ const base = [
         ></svg>
         <span>{{ loadingText() }}</span>
       } @else {
-        <ng-content>{{ label() }}</ng-content>
+        <ng-content>
+          @if (size() === 'icon') {
+            <svg
+              [lucideIcon]="icon()"
+              [class]="iconClassNames()"
+            ></svg>
+          } @else {
+            {{ label() }}
+          }
+        </ng-content>
       }
     </button>
   `,
@@ -61,6 +70,8 @@ export class Button {
   loading = input<boolean>(false);
   type = input<'button' | 'submit' | 'reset'>('button');
   loadingText = input<string>('Please wait...');
+  icon = input<LucideIcon | null>(null);
+  iconClassNames = input<string>('');
   classNames = input<string>('');
 
   link = input<string | any[] | null>(null);
