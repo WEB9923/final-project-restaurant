@@ -8,6 +8,8 @@
     <app-button
       label="Add product"
       size="sm"
+      type="button"
+      (clicked)="openNewProductSheet()"
     />
   </div>
 
@@ -81,3 +83,9 @@
     }
   </div>
 </section>
+
+<app-sheet title="Add Product">
+  <ng-template>
+    <div class="">form here</div>
+  </ng-template>
+</app-sheet>

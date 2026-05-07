@@ -55,7 +55,7 @@ export class Menu implements OnInit {
   }
 
   openFiltersSheet(): void {
-    this.sheet.open({ title: 'Filters' });
+    this.sheet.open();
   }
 
   onFiltersChanged(filters: ProductFilter): void {

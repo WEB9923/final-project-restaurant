@@ -5,13 +5,13 @@ import { Injectable, signal } from '@angular/core';
 })
 export class SheetService {
   private _isSheetOpen = signal<boolean>(false);
-  private _title = signal<string>('');
+  // private _title = signal<string>('');
 
   readonly isSheetOpen = this._isSheetOpen.asReadonly();
-  readonly title = this._title.asReadonly();
+  // readonly title = this._title.asReadonly();
 
-  open({ title }: { title: string }): void {
-    this._title.set(title);
+  open(): void {
+    // this._title.set(title);
 
     this._isSheetOpen.set(true);
   }
@@ -19,6 +19,6 @@ export class SheetService {
   close(): void {
     this._isSheetOpen.set(false);
 
-    this._title.set('');
+    // this._title.set('');
   }
 }

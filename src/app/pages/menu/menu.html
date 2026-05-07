@@ -105,11 +105,11 @@
   </div>
 </section>
 
-<app-sheet>
-  <div>
+<app-sheet title="Filters">
+  <ng-template>
     <app-filters
       [currentFilters]="currentFilters()"
       (filtersChanged)="onFiltersChanged($event)"
     ></app-filters>
-  </div>
+  </ng-template>
 </app-sheet>

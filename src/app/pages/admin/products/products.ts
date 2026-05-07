@@ -6,10 +6,12 @@ import { Separator } from '../../../components/ui/separator/separator';
 import { Loader } from '../../../components/ui/loader/loader';
 import { LucidePencil, LucideTrash } from '@lucide/angular';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Sheet } from '../../../components/ui/sheet/sheet';
+import { SheetService } from '../../../services/sheet-service';
 
 @Component({
   selector: 'app-products',
-  imports: [Button, NgOptimizedImage, Separator, CurrencyPipe, Loader],
+  imports: [Button, NgOptimizedImage, Separator, CurrencyPipe, Loader, Sheet],
   templateUrl: './products.html',
   styleUrl: './products.css',
 })
@@ -17,6 +19,7 @@ export class Products {
   router = inject(Router);
   route = inject(ActivatedRoute);
   productsService = inject(ProductService);
+  sheetService = inject(SheetService);
 
   protected readonly LucidePencil = LucidePencil;
   protected readonly LucideTrash = LucideTrash;
@@ -53,6 +56,10 @@ export class Products {
       queryParams: { page: this.page() - 1 },
       queryParamsHandling: 'merge',
     });
+  }
+
+  openNewProductSheet(): void {
+    this.sheetService.open();
   }
 
   ngOnInit(): void {
