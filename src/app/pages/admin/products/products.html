@@ -45,14 +45,19 @@
               <app-button
                 size="icon"
                 [icon]="LucidePencil"
+                type="button"
                 variant="ghost"
                 iconClassNames="text-violet-600"
+                (clicked)="openEditProductSheet(product)"
               />
               <app-button
                 size="icon"
                 [icon]="LucideTrash"
+                type="button"
                 variant="ghost"
                 iconClassNames="text-destructive"
+                [loading]="isLoadingDeletingProduct()"
+                (clicked)="deleteProduct(product.id)"
               />
             </div>
           }
@@ -84,7 +89,7 @@
   </div>
 </section>
 
-<app-sheet title="Add Product">
+<app-sheet [title]="editMode() ? 'Edit product' : 'Add Product'">
   <ng-template>
     <form
       novalidate
@@ -321,8 +326,11 @@
       </div>
       <app-button
         type="submit"
-        label="Create new product"
+        [label]="editMode() ? 'Update product' : 'Create new product'"
         classNames="w-full! mt-4!"
+        [loadingText]="editMode() ? 'Updating product' : 'Creating product...'"
+        [loading]="adminProductsService.isLoading()"
+        [disabled]="adminProductsService.isLoading()"
       />
     </form>
   </ng-template>

@@ -44,7 +44,9 @@ const base = [
           [size]="20"
           class="animate-spin"
         ></svg>
-        <span>{{ loadingText() }}</span>
+        @if (size() !== 'icon') {
+          <span>{{ loadingText() }}</span>
+        }
       } @else {
         <ng-content>
           @if (size() === 'icon') {

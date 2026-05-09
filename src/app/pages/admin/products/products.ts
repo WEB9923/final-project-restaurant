@@ -15,6 +15,9 @@ import { CreateProductModel } from '../../../models/admin/create-product-model';
 import { form, FormField, validateStandardSchema } from '@angular/forms/signals';
 import { createProductSchema } from '../../../schemas/admin/create-product-schema';
 import { InvalidInput } from '../../../directives/invalid-input';
+import { AdminProductService } from '../../../services/admin/admin-product-service';
+import { switchMap } from 'rxjs';
+import { ProductModel } from '../../../models/product-model';
 
 @Component({
   selector: 'app-products',
@@ -38,6 +41,7 @@ export class Products {
   router = inject(Router);
   route = inject(ActivatedRoute);
   productsService = inject(ProductService);
+  adminProductsService = inject(AdminProductService);
   sheetService = inject(SheetService);
   categoriesService = inject(CategoriesService);
 
@@ -45,6 +49,9 @@ export class Products {
   protected readonly LucideTrash = LucideTrash;
 
   page = signal<number>(1);
+  editMode = signal<boolean>(false);
+  selectedProductId = signal<number | null>(null);
+  isLoadingDeletingProduct = signal<boolean>(false);
 
   createProductModel = signal<CreateProductModel>({
     name: '',
@@ -103,7 +110,43 @@ export class Products {
 
     if (this.createProductForm().invalid()) return;
 
-    console.log(this.createProductModel());
+    const requests = this.editMode()
+      ? this.adminProductsService.updateProduct({
+          data: this.createProductModel(),
+          productId: this.selectedProductId()!,
+        })
+      : this.adminProductsService.createProduct(this.createProductModel());
+
+    requests
+      .pipe(switchMap(() => this.productsService.fetchProducts({ take: 10, page: this.page() })))
+      .subscribe({
+        next: (): void => {
+          this.createProductModel.set({
+            name: '',
+            description: '',
+            image: '',
+            categoryId: null,
+            ingredients: [],
+            method: '',
+            price: 0,
+            spiciness: null,
+            vegetarian: false,
+          });
+          this.sheetService.close();
+        },
+      });
+  }
+
+  deleteProduct(productId: number) {
+    this.isLoadingDeletingProduct.set(true);
+
+    this.adminProductsService
+      .deleteProduct({ productId })
+      .pipe(switchMap(() => this.productsService.fetchProducts({ take: 10, page: this.page() })))
+      .subscribe({
+        next: (): void => this.isLoadingDeletingProduct.set(false),
+        error: (): void => this.isLoadingDeletingProduct.set(false),
+      });
   }
 
   updatePage(pageParam: string | undefined) {
@@ -139,6 +182,30 @@ export class Products {
   }
 
   openNewProductSheet(): void {
+    this.editMode.set(false);
+    this.sheetService.open();
+  }
+
+  openEditProductSheet(product: ProductModel): void {
+    this.editMode.set(true);
+    this.selectedProductId.set(product.id);
+
+    this.productsService.fetchProduct({ productId: product.id }).subscribe({
+      next: ({ data }): void => {
+        this.createProductModel.set({
+          name: data.name,
+          description: data.description,
+          spiciness: data.spiciness,
+          ingredients: data.ingredients,
+          image: data.image,
+          price: data.price,
+          categoryId: data.categoryId,
+          method: data.method,
+          vegetarian: data.vegetarian,
+        });
+      },
+    });
+
     this.sheetService.open();
   }
 
