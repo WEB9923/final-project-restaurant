@@ -8,6 +8,6 @@ export class CreateProductModel implements CreateProductSchema {
   price!: number;
   ingredients!: string[];
   method!: string;
-  spiciness!: number | null;
+  spiciness!: number;
   vegetarian!: boolean;
 }

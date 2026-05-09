@@ -10,7 +10,7 @@ export const createProductSchema = z.object({
     .default(0),
   image: z.url({ error: 'Url format is not valid' }),
   categoryId: z.number().min(1, { error: 'Category is required' }).nullable(),
-  spiciness: z.number().min(1, { error: 'Product spiciness is required' }).nullable(),
+  spiciness: z.number().min(0, { error: 'Product spiciness is required' }),
   vegetarian: z.boolean().default(false),
   method: z.string().min(1, { error: 'Cooking method is required' }),
   ingredients: z.array(z.string()).min(1, { error: 'Cooking ingredients is required' }),

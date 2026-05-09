@@ -124,6 +124,17 @@
                   Profile
                 </button>
                 <button
+                  routerLink="/admin"
+                  (click)="closeUserDropdown()"
+                  class="btn w-full text-foreground! hover:bg-accent! hover:text-primary! justify-start! text-sm! bg-input/30! font-medium! h-8! items-center! gap-1!"
+                >
+                  <svg
+                    lucideShieldUser
+                    [size]="18"
+                  ></svg>
+                  Admin
+                </button>
+                <button
                   (click)="auth.logout()"
                   class="btn text-foreground! hover:bg-destructive/40! hover:text-destructive! w-full justify-start! text-sm! bg-destructive/20! font-medium! h-8! items-center! gap-1!"
                 >

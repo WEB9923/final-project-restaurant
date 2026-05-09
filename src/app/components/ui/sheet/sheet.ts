@@ -37,7 +37,7 @@ import { NgTemplateOutlet } from '@angular/common';
           </button>
         </header>
 
-        <div class="mt-8 h-full flex-1 overflow-y-auto px-2">
+        <div class="mt-10 h-full flex-1 overflow-y-auto px-2">
           <ng-container *ngTemplateOutlet="contentChild()"></ng-container>
         </div>
       </aside>

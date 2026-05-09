@@ -228,7 +228,7 @@
             },
           ]"
           [value]="createProductModel().spiciness"
-          (valueChange)="createProductModel.update((m) => ({...m, spiciness: $event ? +$event: null}))"
+          (valueChange)="createProductModel.update((m) => ({...m, spiciness: +$event!}))"
           classes="w-full!"
           label="Select a spiciness"
         />

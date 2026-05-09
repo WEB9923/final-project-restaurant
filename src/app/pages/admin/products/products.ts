@@ -61,7 +61,7 @@ export class Products {
     ingredients: [],
     method: '',
     price: 0,
-    spiciness: null,
+    spiciness: 0,
     vegetarian: false,
   });
 
@@ -129,7 +129,7 @@ export class Products {
             ingredients: [],
             method: '',
             price: 0,
-            spiciness: null,
+            spiciness: 0,
             vegetarian: false,
           });
           this.sheetService.close();

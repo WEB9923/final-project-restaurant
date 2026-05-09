@@ -13,6 +13,7 @@ import {
   LucideChevronDown,
   LucideLogOut,
   LucideMenu,
+  LucideShieldUser,
   LucideShoppingCart,
   LucideUser,
 } from '@lucide/angular';
@@ -39,6 +40,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
     LucideShoppingCart,
     LucideMenu,
     Button,
+    LucideShieldUser,
   ],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',

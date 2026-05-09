@@ -1,1 +1,96 @@
-<p>categories works!</p>
+<section class="border-2 border-border rounded-radius p-4">
+  <div class="flex items-start justify-between">
+    <div>
+      <h4 class="leading-5 text-[18px] font-semibold">Categories</h4>
+      <h3 class="text-[14.5px] text-muted-foreground">Manage menu categories</h3>
+    </div>
+
+    <app-button
+      label="Add category"
+      size="sm"
+      type="button"
+      (clicked)="openNewCategorySheet()"
+    />
+  </div>
+
+  <app-separator />
+
+  <div class="flex flex-col gap-5 mt-5">
+    @if (categoriesService.isLoading()) {
+      <div class="flex items-center justify-center">
+        <app-loader />
+      </div>
+    } @else {
+      @for (category of categoriesService.categories(); track category.id) {
+        <div class="flex items-start justify-between p-2 border-2 rounded-radius border-border">
+          <div class="flex items-center gap-3">
+            <span class="border border-border rounded-radius text-foreground py-0.5 px-2 text-sm">
+              #{{ category.id }}
+            </span>
+
+            <p class="font-semibold text-foreground">{{ category.name }}</p>
+          </div>
+
+          @if (!category.canDelete) {
+            <p class="text-destructive font-semibold text-[14.5px]">This is static</p>
+          } @else {
+            <div class="flex items-center gap-1">
+              <app-button
+                size="icon"
+                [icon]="LucidePencil"
+                type="button"
+                variant="ghost"
+                iconClassNames="text-violet-600"
+                (clicked)="openEditCategorySheet(category)"
+              />
+              <app-button
+                size="icon"
+                [icon]="LucideTrash"
+                type="button"
+                variant="ghost"
+                iconClassNames="text-destructive"
+                (clicked)="deleteCategory(category.id)"
+                [loading]="deletingCategoryId() === category.id"
+              />
+            </div>
+          }
+        </div>
+      }
+    }
+  </div>
+</section>
+
+<app-sheet [title]="editMode() ? 'Edit category' : 'Add Category'">
+  <ng-template>
+    <form
+      (submit)="createCategory($event)"
+      novalidate
+      class="h-full flex flex-col justify-between"
+    >
+      <div class="">
+        <input
+          type="text"
+          placeholder="e.g. Burger"
+          class="input w-full! h-9! mt-5!"
+          [formField]="createCategoryForm.name"
+          appInvalidInput
+          [field]="createCategoryForm.name"
+        />
+        @if (createCategoryForm.name().touched() && createCategoryForm.name().invalid()) {
+          @for (error of createCategoryForm.name().errors(); track $index) {
+            <p class="text-[15px] text-destructive">{{ error.message }}</p>
+          }
+        }
+      </div>
+
+      <app-button
+        [label]="editMode() ? 'Update category' : 'Create category'"
+        [loading]="adminCategoryService.isLoading()"
+        [loadingText]="editMode() ? 'Updating category...' : 'Creating category...'"
+        [disabled]="adminCategoryService.isLoading()"
+        type="submit"
+        classNames="w-full!"
+      />
+    </form>
+  </ng-template>
+</app-sheet>
