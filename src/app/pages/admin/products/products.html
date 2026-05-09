@@ -86,6 +86,244 @@
 
 <app-sheet title="Add Product">
   <ng-template>
-    <div class="">form here</div>
+    <form
+      novalidate
+      (submit)="createProduct($event)"
+      class="flex flex-col gap-3 h-full"
+    >
+      <div>
+        <label
+          for="name"
+          class="text-[15px] font-medium"
+        >
+          Name
+        </label>
+        <input
+          type="text"
+          id="name"
+          class="w-full h-9! input"
+          placeholder="e.g. Cheeseburger"
+          [formField]="createProductForm.name"
+          appInvalidInput
+          [field]="createProductForm.name"
+        />
+        @if (createProductForm.name().touched() && createProductForm.name().errors()) {
+          @for (error of createProductForm.name().errors(); track error) {
+            <p class="text-destructive text-[15px]">{{ error.message }}</p>
+          }
+        }
+      </div>
+      <div>
+        <label
+          for="description"
+          class="text-[15px] font-medium"
+        >
+          Description
+        </label>
+        <textarea
+          id="description"
+          class="w-full h-20! input resize-none"
+          placeholder="Short description of the product"
+          [formField]="createProductForm.description"
+          appInvalidInput
+          [field]="createProductForm.description"
+        ></textarea>
+        @if (
+          createProductForm.description().touched() && createProductForm.description().errors()
+        ) {
+          @for (error of createProductForm.description().errors(); track error) {
+            <p class="text-destructive text-[15px]">{{ error.message }}</p>
+          }
+        }
+      </div>
+      <div>
+        <label
+          for="price"
+          class="text-[15px] font-medium"
+        >
+          Price ($)
+        </label>
+        <input
+          type="number"
+          inputmode="numeric"
+          class="w-full h-9! input"
+          id="price"
+          [formField]="createProductForm.price"
+          appInvalidInput
+          [field]="createProductForm.price"
+        />
+        @if (createProductForm.price().touched() && createProductForm.price().errors()) {
+          @for (error of createProductForm.price().errors(); track error) {
+            <p class="text-destructive text-[15px]">{{ error.message }}</p>
+          }
+        }
+      </div>
+      <div>
+        <label
+          for="image"
+          class="text-[15px] font-medium"
+        >
+          Image url
+        </label>
+        <input
+          type="text"
+          class="w-full h-9! input"
+          id="image"
+          placeholder="https://"
+          [formField]="createProductForm.image"
+          appInvalidInput
+          [field]="createProductForm.image"
+        />
+        @if (createProductForm.image().touched() && createProductForm.image().errors()) {
+          @for (error of createProductForm.image().errors(); track error) {
+            <p class="text-destructive text-[15px]">{{ error.message }}</p>
+          }
+        }
+      </div>
+      <div>
+        <label class="text-[15px] font-medium">Category</label>
+        <app-select
+          [options]="categoryOptions()"
+          [value]="createProductModel().categoryId"
+          (valueChange)="createProductModel.update(m => ({...m, categoryId: $event ? +$event : null}))"
+          classes="w-full!"
+          label="Select a category"
+        />
+        @if (createProductForm.categoryId().touched() && createProductForm.categoryId().invalid()) {
+          <p class="text-destructive text-[15px]">Category is required</p>
+        }
+      </div>
+      <div>
+        <label class="text-[15px] font-medium">Spiciness</label>
+        <app-select
+          [options]="[
+            {
+              label: '0',
+              value: 0,
+            },
+            {
+              label: '1',
+              value: 1,
+            },
+            {
+              label: '2',
+              value: 2,
+            },
+            {
+              label: '3',
+              value: 3,
+            },
+            {
+              label: '4',
+              value: 4,
+            },
+            {
+              label: '5',
+              value: 5,
+            },
+          ]"
+          [value]="createProductModel().spiciness"
+          (valueChange)="createProductModel.update((m) => ({...m, spiciness: $event ? +$event: null}))"
+          classes="w-full!"
+          label="Select a spiciness"
+        />
+        @if (createProductForm.spiciness().touched() && createProductForm.spiciness().errors()) {
+          @for (error of createProductForm.spiciness().errors(); track error) {
+            <p class="text-destructive text-[15px]">{{ error.message }}</p>
+          }
+        }
+      </div>
+      <div class="">
+        <label
+          [for]="'vegetarian'"
+          class="flex items-center justify-between text-[16px] font-semibold"
+        >
+          Vegetarians only
+
+          <app-switch
+            [(checked)]="createProductModel().vegetarian"
+            [id]="'vegetarian'"
+          ></app-switch>
+        </label>
+      </div>
+      <div>
+        <label
+          for="cookedMethod"
+          class="text-[15px] font-medium"
+        >
+          Cooking method
+        </label>
+        <textarea
+          id="cookedMethod"
+          class="w-full h-18! input resize-none"
+          placeholder="e.g. Grilled on open flame for 8 minutes"
+          [formField]="createProductForm.method"
+          appInvalidInput
+          [field]="createProductForm.method"
+        ></textarea>
+        @if (createProductForm.method().touched() && createProductForm.method().errors()) {
+          @for (error of createProductForm.method().errors(); track error) {
+            <p class="text-destructive text-[15px]">{{ error.message }}</p>
+          }
+        }
+      </div>
+      <div>
+        <label
+          for="image"
+          class="text-[15px] font-medium"
+        >
+          Ingredients
+        </label>
+        <div class="relative">
+          <input
+            #ingredientInputRef
+            type="text"
+            class="w-full h-9! input"
+            id="image"
+            placeholder="e.g. Tomato/Cheese"
+            (keydown.enter)="$event.preventDefault(); addIngredient(ingredientInputRef)"
+          />
+          <app-button
+            label="add"
+            classNames="absolute! top-1/2! -translate-y-1/2! right-[2px]"
+            size="sm"
+            variant="secondary"
+            (clicked)="addIngredient(ingredientInputRef)"
+          />
+        </div>
+        @if (
+          createProductForm.ingredients().touched() && createProductForm.ingredients().errors()
+        ) {
+          @for (error of createProductForm.ingredients().errors(); track error) {
+            <p class="text-destructive text-[15px]">{{ error.message }}</p>
+          }
+        }
+        <div class="flex flex-wrap gap-1 mt-2">
+          @for (item of createProductModel().ingredients; track item; let i = $index) {
+            <span
+              class="flex border-2 border-border items-center gap-2 text-sm bg-input/70 text-foreground px-1.5 py-1 rounded-radius w-fit"
+            >
+              {{ item }}
+
+              <button
+                (click)="removeIngredient(i)"
+                type="button"
+                class="rounded-full cursor-pointer bg-destructive/20 text-destructive shrink-0 w-4 h-4 flex items-center justify-center"
+              >
+                <svg
+                  lucideX
+                  [size]="14"
+                ></svg>
+              </button>
+            </span>
+          }
+        </div>
+      </div>
+      <app-button
+        type="submit"
+        label="Create new product"
+        classNames="w-full! mt-4!"
+      />
+    </form>
   </ng-template>
 </app-sheet>

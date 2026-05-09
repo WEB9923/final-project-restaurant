@@ -6,12 +6,11 @@ import { AuthService } from '../../services/auth-service';
 import { form, FormField, validateStandardSchema } from '@angular/forms/signals';
 import { loginSchema } from '../../schemas/login-schema';
 import { Button } from '../../components/ui/button/button';
-import { NgClass } from '@angular/common';
 import { InvalidInput } from '../../directives/invalid-input';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, RouterLink, FormField, Button, NgClass, InvalidInput],
+  imports: [FormsModule, RouterLink, FormField, Button, InvalidInput],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })

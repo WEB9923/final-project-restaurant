@@ -35,6 +35,7 @@ import { NgClass } from '@angular/common';
         @for (option of options(); track option.value) {
           <button
             (click)="select(option)"
+            type="button"
             class="w-full text-left px-2 py-1.5 font-medium! cursor-pointer text-sm rounded-radius hover:bg-accent"
             [ngClass]="{
               'bg-accent text-primary': option.value === value(),
@@ -51,6 +52,7 @@ export class Select {
   options = input<ISelectOption[]>([]);
   value = model<string | number | null>(null);
   classes = input<string>('');
+  label = input<string>('');
 
   isOpen = signal<boolean>(false);
 
@@ -69,7 +71,8 @@ export class Select {
   selectedLabel(): string {
     const found = this.options().find((op) => op.value === this.value());
 
-    return found?.label ?? 'Select..';
+    if (found) return found.label;
+    return this.label() || 'Select..';
   }
 
   constructor() {
