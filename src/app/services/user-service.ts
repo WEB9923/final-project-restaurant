@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { ProfileModel } from '../models/profile-model';
 import { catchError, forkJoin, Observable, tap, throwError } from 'rxjs';
 import { ProfileFormModel } from '../interfaces/profile-form';

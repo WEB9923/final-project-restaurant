@@ -1,5 +1,4 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { environment } from '../../environments/environment.development';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { IRegisterModel } from '../interfaces/register-form';
 import { catchError, Observable, tap, throwError } from 'rxjs';
@@ -9,6 +8,7 @@ import { ILoginModel } from '../interfaces/login-form';
 import { jwtDecode } from 'jwt-decode';
 import { JwtModel } from '../models/jwt-model';
 import { MeModel } from '../models/me-model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',

@@ -1,9 +1,9 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { environment } from '../../environments/environment.development';
 import { CategoriesModel } from '../models/categories-model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from './toast-service';
 import { catchError, Observable, tap, throwError } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',

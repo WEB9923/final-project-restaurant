@@ -1,10 +1,10 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { environment } from '../../environments/environment.development';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { ToastService } from './toast-service';
 import { CartProductModel } from '../models/product-model';
 import { AuthService } from './auth-service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
