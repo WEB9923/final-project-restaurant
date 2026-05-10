@@ -12,7 +12,10 @@ export const createProductSchema = z.object({
   categoryId: z.number().min(1, { error: 'Category is required' }).nullable(),
   spiciness: z.number().min(0, { error: 'Product spiciness is required' }),
   vegetarian: z.boolean().default(false),
-  method: z.string().min(1, { error: 'Cooking method is required' }),
+  method: z
+    .string()
+    .min(1, { error: 'Cooking method is required' })
+    .max(500, { error: 'Must not exceed 500 characters.' }),
   ingredients: z.array(z.string()).min(1, { error: 'Cooking ingredients is required' }),
 });
 

@@ -32,7 +32,7 @@ export class AdminCategoryService {
       catchError((err: HttpErrorResponse) => {
         this.toast.showToast({
           type: 'error',
-          message: 'Failed to create category',
+          message: err.error?.detail || 'Failed to create category',
         });
 
         this._isLoading.set(false);
@@ -57,7 +57,7 @@ export class AdminCategoryService {
       catchError((err) => {
         this.toast.showToast({
           type: 'error',
-          message: 'Failed to update category',
+          message: err.error?.detail || 'Failed to update category',
         });
 
         this._isLoading.set(false);
@@ -78,7 +78,7 @@ export class AdminCategoryService {
       catchError((err: HttpErrorResponse) => {
         this.toast.showToast({
           type: 'error',
-          message: 'Failed to delete category',
+          message: err.error?.detail || 'Failed to delete category',
         });
 
         return throwError(() => err);

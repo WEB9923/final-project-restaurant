@@ -33,7 +33,7 @@ export class AdminProductService {
       catchError((err: HttpErrorResponse) => {
         this.toast.showToast({
           type: 'error',
-          message: 'Failed to create product',
+          message: err.error?.detail || 'Failed to create product',
         });
 
         this._isLoading.set(false);
@@ -60,7 +60,7 @@ export class AdminProductService {
         catchError((err: HttpErrorResponse) => {
           this.toast.showToast({
             type: 'error',
-            message: 'Failed to update product',
+            message: err.error?.detail || 'Failed to update product',
           });
 
           this._isLoading.set(false);
@@ -81,7 +81,7 @@ export class AdminProductService {
       catchError((err) => {
         this.toast.showToast({
           type: 'error',
-          message: 'Failed to delete product',
+          message: err.error?.detail || 'Failed to delete product',
         });
 
         return throwError(() => err);
