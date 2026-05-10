@@ -3,7 +3,7 @@ import { LucideDynamicIcon, LucideIcon, LucideLoader } from '@lucide/angular';
 import { Router } from '@angular/router';
 
 type ButtonVariant = 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
-type ButtonSize = 'default' | 'sm' | 'lg' | 'icon';
+type ButtonSize = 'default' | 'sm' | 'lg' | 'icon' | 'xs' | 'icon-sm';
 
 const variants: Record<ButtonVariant, string> = {
   default: 'bg-primary text-primary-foreground hover:bg-primary/75',
@@ -17,8 +17,10 @@ const variants: Record<ButtonVariant, string> = {
 const sizes: Record<ButtonSize, string> = {
   default: 'h-9 px-2',
   sm: 'h-8 px-1.5 text-sm',
+  xs: 'h-7 px-1 text-sm',
   lg: 'h-10 px-3',
   icon: 'h-9 w-9',
+  'icon-sm': 'h-8 w-8',
 };
 
 const base = [

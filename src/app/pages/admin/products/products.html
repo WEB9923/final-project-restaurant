@@ -274,7 +274,7 @@
       </div>
       <div>
         <label
-          for="image"
+          for="ingredients"
           class="text-[15px] font-medium"
         >
           Ingredients
@@ -283,16 +283,16 @@
           <input
             #ingredientInputRef
             type="text"
-            class="w-full h-9! input"
-            id="image"
+            class="w-full h-9! input pr-12!"
+            id="ingredients"
             placeholder="e.g. Tomato/Cheese"
             (keydown.enter)="$event.preventDefault(); addIngredient(ingredientInputRef)"
           />
           <app-button
-            label="add"
-            classNames="absolute! top-1/2! -translate-y-1/2! right-[2px]"
-            size="sm"
-            variant="secondary"
+            label="enter"
+            classNames="absolute! top-1/2! -translate-y-1/2! right-[3px]!"
+            size="xs"
+            variant="ghost"
             (clicked)="addIngredient(ingredientInputRef)"
           />
         </div>
