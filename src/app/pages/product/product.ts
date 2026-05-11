@@ -3,13 +3,20 @@ import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ProductService } from '../../services/product-service';
 import { CurrencyPipe, NgOptimizedImage } from '@angular/common';
-import { LucideCircleDot, LucideLeaf, LucideLoader, LucideStar } from '@lucide/angular';
+import {
+  LucideCircleDot,
+  LucideLeaf,
+  LucideLoader,
+  LucidePackageX,
+  LucideStar,
+} from '@lucide/angular';
 import { Loader } from '../../components/ui/loader/loader';
 import { Count } from '../../components/shared/count/count';
 import { Card } from '../../components/shared/card/card';
 import { CartService } from '../../services/cart-service';
 import { switchMap } from 'rxjs';
 import { Title } from '@angular/platform-browser';
+import { Button } from '../../components/ui/button/button';
 
 @Component({
   selector: 'app-product',
@@ -23,6 +30,8 @@ import { Title } from '@angular/platform-browser';
     Count,
     Card,
     LucideLoader,
+    LucidePackageX,
+    Button,
   ],
   templateUrl: './product.html',
   styleUrl: './product.css',

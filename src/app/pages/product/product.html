@@ -6,114 +6,142 @@
           <app-loader></app-loader>
         </div>
       } @else {
-        <div class="relative h-110 w-full rounded-radius overflow-hidden">
-          <img
-            [ngSrc]="product.singleProduct()?.image!"
-            [alt]="product.singleProduct()?.name"
-            fill
-            priority
-            class="object-cover"
-          />
-        </div>
+        @if (!product.singleProduct()) {
+          <div class="col-span-full flex items-center justify-center min-h-[50vh] flex-col gap-5">
+            <svg
+              lucidePackageX
+              [size]="100"
+              class="text-foreground"
+            ></svg>
+            <div class="space-y-3 text-center lg:max-w-155 w-full">
+              <h5 class="lg:text-4xl text-3xl font-bold text-foreground">Product not found</h5>
+              <p class="text-muted-foreground text-lg">
+                This product has been deleted or the product ID is entered incorrectly in the URL.
+                Please do not mechanically insert the product ID into the URL.
+              </p>
 
-        <div class="flex flex-col gap-4">
-          <!----NAME---->
-          <h2 class="title">{{ product.singleProduct()?.name }}</h2>
-
-          <!----RATING---->
-          <div class="flex items-center gap-2">
-            @let rating = product.singleProduct()?.rate ?? 0;
-
-            <div class="flex items-center gap-0.5">
-              @for (star of [1, 2, 3, 4, 5]; track $index) {
-                <svg
-                  lucideStar
-                  [size]="star <= rating ? 23 : 20"
-                  [class.fill-yellow-500]="star <= rating"
-                  [class.stroke-muted-foreground]="star > rating"
-                  [strokeWidth]="star <= rating ? 0 : 1.8"
-                ></svg>
-              }
+              <app-button
+                label="Return to menu page"
+                link="/menu"
+                [variant]="'secondary'"
+                [replaceUrl]="true"
+                size="lg"
+                classNames="mx-auto! mt-4!"
+              />
             </div>
-
-            <span class="text-sm font-semibold text-muted-foreground">({{ rating }} rating)</span>
+          </div>
+        } @else {
+          <div class="relative h-110 w-full rounded-radius overflow-hidden">
+            <img
+              [ngSrc]="product.singleProduct()?.image!"
+              [alt]="product.singleProduct()?.name"
+              fill
+              priority
+              class="object-cover"
+            />
           </div>
 
-          <!----PRICE---->
-          <h3 class="font-black! title text-primary!">
-            {{ product.singleProduct()?.price | currency: 'USD' }}
-          </h3>
+          <div class="flex flex-col gap-4">
+            <!----NAME---->
+            <h2 class="title">{{ product.singleProduct()?.name }}</h2>
 
-          <!----IS VEGETARIAN---->
-          @if (product.singleProduct()?.vegetarian) {
-            <div
-              class="px-1.5 py-0.5 rounded-full bg-primary text-primary-foreground flex items-center gap-1 w-fit text-sm"
-            >
-              <svg
-                lucideLeaf
-                [size]="16"
-              ></svg>
-              Vegetarian
-            </div>
-          }
+            <!----RATING---->
+            <div class="flex items-center gap-2">
+              @let rating = product.singleProduct()?.rate ?? 0;
 
-          <!----DESCRIPTION---->
-          <p class="text-muted-foreground text-[17px]">
-            {{ product.singleProduct()?.description }}
-          </p>
-
-          <!----INGREDIENTS---->
-          <div class="space-y-1">
-            <h4 class="font-bold text-lg">Ingredients:</h4>
-
-            <div class="grid lg:grid-cols-2 grid-cols-1 gap-x-5 gap-y-2">
-              @for (ingredient of product.singleProduct()?.ingredients; track ingredient) {
-                <div class="flex items-center gap-2 justify-start">
+              <div class="flex items-center gap-0.5">
+                @for (star of [1, 2, 3, 4, 5]; track $index) {
                   <svg
-                    lucideCircleDot
-                    [size]="15"
-                    class="fill-primary! shrink-0 p-0! m-0! stroke-0"
+                    lucideStar
+                    [size]="star <= rating ? 23 : 20"
+                    [class.fill-yellow-500]="star <= rating"
+                    [class.stroke-muted-foreground]="star > rating"
+                    [strokeWidth]="star <= rating ? 0 : 1.8"
                   ></svg>
-                  <span class="text-[15px]">{{ ingredient }}</span>
-                </div>
-              }
+                }
+              </div>
+
+              <span class="text-sm font-semibold text-muted-foreground">({{ rating }} rating)</span>
             </div>
-          </div>
 
-          <!----PREPARATION---->
-          <div class="space-y-1">
-            <h4 class="font-bold text-lg">Preparation Method:</h4>
+            <!----PRICE---->
+            <h3 class="font-black! title text-primary!">
+              {{ product.singleProduct()?.price | currency: 'USD' }}
+            </h3>
 
-            <p class="text-muted-foreground text-[15.5px]">{{ product.singleProduct()?.method }}</p>
-          </div>
-
-          <!----COUNT---->
-          <div class="">
-            <app-count [(value)]="quantity"></app-count>
-          </div>
-
-          <button
-            (click)="handleAddToCart()"
-            [disabled]="isLoading()"
-            class="w-full btn bg-primary! flex! items-center! gap-1.5!"
-            type="button"
-          >
-            @if (isLoading()) {
-              <svg
-                lucideLoader
-                [size]="18"
-                class="animate-spin"
-              ></svg>
-              Adding to cart...
-            } @else {
-              Add to cart
+            <!----IS VEGETARIAN---->
+            @if (product.singleProduct()?.vegetarian) {
+              <div
+                class="px-1.5 py-0.5 rounded-full bg-primary text-primary-foreground flex items-center gap-1 w-fit text-sm"
+              >
+                <svg
+                  lucideLeaf
+                  [size]="16"
+                ></svg>
+                Vegetarian
+              </div>
             }
-          </button>
-        </div>
+
+            <!----DESCRIPTION---->
+            <p class="text-muted-foreground text-[17px]">
+              {{ product.singleProduct()?.description }}
+            </p>
+
+            <!----INGREDIENTS---->
+            <div class="space-y-1">
+              <h4 class="font-bold text-lg">Ingredients:</h4>
+
+              <div class="grid lg:grid-cols-2 grid-cols-1 gap-x-5 gap-y-2">
+                @for (ingredient of product.singleProduct()?.ingredients; track ingredient) {
+                  <div class="flex items-center gap-2 justify-start">
+                    <svg
+                      lucideCircleDot
+                      [size]="15"
+                      class="fill-primary! shrink-0 p-0! m-0! stroke-0"
+                    ></svg>
+                    <span class="text-[15px]">{{ ingredient }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+
+            <!----PREPARATION---->
+            <div class="space-y-1">
+              <h4 class="font-bold text-lg">Preparation Method:</h4>
+
+              <p class="text-muted-foreground text-[15.5px]">
+                {{ product.singleProduct()?.method }}
+              </p>
+            </div>
+
+            <!----COUNT---->
+            <div class="">
+              <app-count [(value)]="quantity"></app-count>
+            </div>
+
+            <button
+              (click)="handleAddToCart()"
+              [disabled]="isLoading()"
+              class="w-full btn bg-primary! flex! items-center! gap-1.5!"
+              type="button"
+            >
+              @if (isLoading()) {
+                <svg
+                  lucideLoader
+                  [size]="18"
+                  class="animate-spin"
+                ></svg>
+                Adding to cart...
+              } @else {
+                Add to cart
+              }
+            </button>
+          </div>
+        }
       }
     </div>
 
-    @if (!product.isLoading()) {
+    @if (!product.isLoading() && product.singleProduct()) {
       <div class="space-y-4">
         <h2 class="title">Related products</h2>
 

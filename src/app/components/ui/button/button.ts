@@ -24,7 +24,7 @@ const sizes: Record<ButtonSize, string> = {
 };
 
 const base = [
-  'inline-flex items-center justify-center gap-2',
+  'flex shrink-0 min-w-fit items-center justify-center gap-2',
   'rounded-radius font-medium cursor-pointer capitalize',
   'disabled:pointer-events-none disabled:opacity-60',
   '[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
