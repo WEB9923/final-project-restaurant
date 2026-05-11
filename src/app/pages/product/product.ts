@@ -7,7 +7,7 @@ import {
   LucideCircleDot,
   LucideLeaf,
   LucideLoader,
-  LucidePackageX,
+  LucidePackageSearch,
   LucideStar,
 } from '@lucide/angular';
 import { Loader } from '../../components/ui/loader/loader';
@@ -30,8 +30,8 @@ import { Button } from '../../components/ui/button/button';
     Count,
     Card,
     LucideLoader,
-    LucidePackageX,
     Button,
+    LucidePackageSearch,
   ],
   templateUrl: './product.html',
   styleUrl: './product.css',
