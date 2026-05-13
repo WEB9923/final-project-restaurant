@@ -2,7 +2,14 @@ import { Component, computed, inject, input, output } from '@angular/core';
 import { LucideDynamicIcon, LucideIcon, LucideLoader } from '@lucide/angular';
 import { Router } from '@angular/router';
 
-type ButtonVariant = 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+type ButtonVariant =
+  | 'default'
+  | 'destructive'
+  | 'outline'
+  | 'secondary'
+  | 'ghost'
+  | 'link'
+  | 'text';
 type ButtonSize = 'default' | 'sm' | 'lg' | 'icon' | 'xs' | 'icon-sm';
 
 const variants: Record<ButtonVariant, string> = {
@@ -12,6 +19,7 @@ const variants: Record<ButtonVariant, string> = {
   secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/75',
   ghost: 'bg-transparent hover:bg-accent hover:text-accent-foreground',
   link: 'text-primary underline-offset-3 hover:underline',
+  text: 'text-foreground hover:text-primary',
 };
 
 const sizes: Record<ButtonSize, string> = {
