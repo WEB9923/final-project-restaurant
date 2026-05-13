@@ -104,7 +104,7 @@ import { gsap } from 'gsap';
                 <app-button
                   type="submit"
                   label="Send"
-                  loadingText="wait.."
+                  loadingText="thinking.."
                   [loading]="chatbotService.isLoading()"
                   [disabled]="formModel.message().invalid()"
                   classNames="absolute top-1/2 -translate-y-1/2 right-1"
