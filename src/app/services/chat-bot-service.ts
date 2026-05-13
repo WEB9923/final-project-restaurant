@@ -20,8 +20,6 @@ export class ChatBotService {
       .post<{ output: string; message: string }>(this.apiUrl, { chatInput, sessionId })
       .pipe(
         tap((res) => {
-          console.log({ res });
-
           this._isLoading.set(false);
         }),
         catchError((err) => {

@@ -242,15 +242,17 @@ export class Chat {
   }
 
   constructor() {
-    effect((): void => {
+    effect((onCleanup): void => {
       const messages = this.messages();
       const loading = this.chatbotService.isLoading();
 
       localStorage.setItem('chat_history', JSON.stringify(messages));
 
-      setTimeout((): void => {
+      const timeoutId = setTimeout((): void => {
         this.scrollToBottom();
       }, 10);
+
+      onCleanup((): void => clearTimeout(timeoutId));
     });
 
     effect((): void => {
