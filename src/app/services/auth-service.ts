@@ -1,4 +1,4 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal, Injector } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { IRegisterModel } from '../interfaces/register-form';
 import { catchError, Observable, tap, throwError } from 'rxjs';
@@ -9,6 +9,7 @@ import { jwtDecode } from 'jwt-decode';
 import { JwtModel } from '../models/jwt-model';
 import { MeModel } from '../models/me-model';
 import { environment } from '../../environments/environment';
+import { UserService } from './user-service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,7 @@ export class AuthService {
   private httpClient = inject(HttpClient);
   private toast = inject(ToastService);
   private router = inject(Router);
+  private injector = inject(Injector);
 
   private baseUrl = environment.baseUrl;
   private readonly ACCESS_KEY = 'access_token';
@@ -28,6 +30,9 @@ export class AuthService {
   readonly currentUser = this._currentUser.asReadonly();
   readonly isLoggedIn = computed((): boolean => !!this._currentUser());
   readonly isLoading = this._isLoading.asReadonly();
+
+  private readonly n8nUsersSheetWebhookUrl =
+    'https://amikos-space.app.n8n.cloud/webhook-test/879e67e3-729c-4a62-b53f-82e714c65da6';
 
   constructor() {
     this.initializeFromStorage();
@@ -82,6 +87,8 @@ export class AuthService {
             });
 
             this.router.navigate(['/'], { replaceUrl: true });
+
+            this.sendUserToN8n();
           }
 
           this._isLoading.set(false);
@@ -229,6 +236,43 @@ export class AuthService {
         },
       }),
     );
+  }
+
+  private sendUserToN8n(): void {
+    const userService = this.injector.get(UserService);
+
+    userService.fetchProfile().subscribe({
+      next: ({ data }) => {
+        const payload = {
+          id: data.id,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          age: data.age || null,
+          email: data.email,
+          profileImage: data.picture,
+          loginDate: new Intl.DateTimeFormat('en-US', {
+            year: '2-digit',
+            month: 'short',
+            hour: '2-digit',
+            minute: '2-digit',
+            day: '2-digit',
+            hour12: false,
+          }).format(new Date()),
+        };
+
+        this.httpClient.post(this.n8nUsersSheetWebhookUrl, payload).subscribe({
+          next: () => {
+            console.log('User data sanded to n8n');
+          },
+          error: (err) => {
+            console.log('Failed to send data to n8n', err);
+          },
+        });
+      },
+      error: (err) => {
+        console.log('Error fetch user profile', err);
+      },
+    });
   }
 
   private handleTokens(tokens: { accessToken: string; refreshToken: string }): void {

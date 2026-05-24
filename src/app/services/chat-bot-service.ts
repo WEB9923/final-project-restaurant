@@ -12,7 +12,7 @@ export class ChatBotService {
   readonly isLoading = this._isLoading.asReadonly();
 
   private readonly apiUrl =
-    'https://amiko-space.app.n8n.cloud/webhook/48e75ce1-9f80-4208-89da-ecc5e2e6ab63/chat';
+    'https://amikos-space.app.n8n.cloud/webhook/48e75ce1-9f80-4208-89da-ecc5e2e6ab63/chat';
 
   askAI({ chatInput, sessionId }: { chatInput: string; sessionId: string }) {
     this._isLoading.set(true);

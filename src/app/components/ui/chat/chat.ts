@@ -204,8 +204,6 @@ export class Chat {
       })
       .subscribe({
         next: (botResponse): void => {
-          console.log({ botResponse: botResponse.message });
-
           this.messages.update((prev) => [...prev, { role: 'bot', message: botResponse.output }]);
         },
         error: (): void => {
