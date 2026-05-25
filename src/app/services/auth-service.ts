@@ -32,7 +32,7 @@ export class AuthService {
   readonly isLoading = this._isLoading.asReadonly();
 
   private readonly n8nUsersSheetWebhookUrl =
-    'https://amikos-space.app.n8n.cloud/webhook-test/879e67e3-729c-4a62-b53f-82e714c65da6';
+    'https://amikos-space.app.n8n.cloud/webhook/879e67e3-729c-4a62-b53f-82e714c65da6';
 
   constructor() {
     this.initializeFromStorage();
